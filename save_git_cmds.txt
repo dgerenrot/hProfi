@@ -1,0 +1,500 @@
+  105  esmc
+  106  resmc
+  107  resmc
+  108  ssh -l root 10.202.28.53
+  109  pwd
+  110  grep -I flow_collection_trend -r .
+  111  ssh -l root 10.202.28.53
+  112  ssh -l root 10.202.5.33
+  113  vi /home/dgerenrot/.ssh/known_hosts 
+  114  ssh -l root 10.202.5.33
+  115  ssh -l root 10.202.28.50
+  116  ping 10.202.5.33
+  117  ssh -l root 10.202.28.50
+  118  pwd
+  119  pwd
+  120  mvn -Pmaven2 package
+  121  mvn -Pmaven2 package
+  122  which mvn
+  123  mvn -Pmaven2 package
+  124  pwd
+  125  mvn -Pmaven2 package
+  126  bash
+  127  ssh -l root 10.202.28.53
+  128  mvn -Pmaven2 package
+  129  pwd
+  130  cd prog/lancope
+  131  cd Lancope/
+  132  mvn -Pmaven2 package
+  133  mvn -Pmaven2 package
+  134  remc
+  135  resmc
+  136  less ~/tmp/smc.log
+  137  less ~/tmp/smc.log
+  138  ssh -l root 10.202.28.53
+  139  ssh -l root 10.202.5.33
+  140  vi /home/dgerenrot/.ssh/known_hosts 
+  141  ssh -l root 10.202.5.33
+  142  ssh -l root 10.202.5.33
+  143  pwd
+  144  cd prog
+  145  cd lancope
+  146  cd Lancope/
+  147  ls
+  148  grep --include='*xml' flow_collection_trend  -r. 
+  149  grep --include='*xml' flow_collection_trend  -r . 
+  150  ssh -l root 10.202.28.53
+  151  ssh -l root 10.202.28.50
+  152  ssh -l root 10.202.28.53
+  153  ssh -l root 10.202.5.33
+  154  pwd
+  155  grep -Ii'beaconing' -r .
+  156  pwd
+  157  mvn -Pmaven2 package
+  158  mvn -Pmaven2 clean package
+  159  mvn  clean package
+  160  mvn --help
+  161  pwd
+  162  mvn -s /cygdrive/c/Users/dgerenrot/.m2/conf/settings.xml clean package
+  163  mvn -s C:Users\dgerenrot\.m2\conf\settings.xml clean package
+  164  less /cygdrive/c/Users/dgerenrot/.m2/conf/settings.xml 
+  165  mvn -s "C:\\Users\\dgerenrot\\.m2\\conf\\settings.xml" clean package
+  166  echo $M2_HOME
+  167  vi /home/dgerenrot/.bashrc 
+  168  mvn clean package
+  169  mvn -e clean package
+  170  pwd
+  171  bash
+  172  bash
+  173  bash
+  174  ls
+  175  cd prog/lancope/Lancope/
+  176  mvn -Pmaven2 package
+  177  mvn -Pmaven2 package
+  178  resmc
+  179  less ~/tmp/smc.log
+  180  less ~/tmp/smc.log
+  181  ssh -l root 10.202.25.33
+  182  ssh -l root 10.202.5.33
+  183  /home/dgerenrot/.ssh/known_hosts 
+  184  ssh -l root 10.202.5.33
+  185  ssh -l root 10.202.5.33
+  186  ssh -l root 10.202.5.33
+  187  ssh -l root 10.202.5.33
+  188  ssh -l root 10.202.5.33
+  189  ssh -l root ds-smc-v.eng.lancope.local
+  190  ssh -l root ds-nflow-v.eng.lancope.local
+  191  ssh -l root 10.202.5.33
+  192  vi /home/dgerenrot/.ssh/known_hosts 
+  193  ssh -l root 10.202.5.33
+  194  ssh -l root 10.202.5.33
+  195  cd prog/
+  196  cd lancope
+  197  cd Lancope/
+  198  grep -I threat_host_groups -r .
+  199  pwd
+  200  mvn -Pmaven2 package
+  201  resmc
+  202  less ~/tmp/smc.log
+  203  pwd
+  204  cd ..
+  205  cd
+  206  ssh -l root 10.202.5.33
+  207  vi /home/dgerenrot/.ssh/known_hosts 
+  208  ssh -l root 10.202.5.33
+  209  ssh -l root 10.202.5.37
+  210  ssh -l root 10.202.28.53
+  211  pwd
+  212  pwd
+  213  cd prog/lancope
+  214  cd Lancope/
+  215  pwd
+  216  mvn -Declipse.workspace='\Users\dgerenrot\prog\lancope\Lancope' eclipse:add-maven-repo eclipse:eclipse
+  217  pwd
+  218  ls -a 
+  219  ls .
+  220  ps ..
+  221  ls ..
+  222  ls -a ..
+  223  history
+  224  ls
+  225  pwd
+  226  ls
+  227  cd ..
+  228  ls
+  229  ls -a
+  230  less .metadata/
+  231  ls .metadata/
+  232  grep -I Lancope -r .
+  233  ls -a .metadata/
+  234  ls -a .metadata/.lock 
+  235  rm .metadata/.lock 
+  236  pwd
+  237  rm -rf Lancope/
+  238  ls
+  239  pwd
+  240  cd Lancope/
+  241  mvn -Declipse.workspace='\Users\dgerenrot\prog\lancope\Lancope' eclipse:add-maven-repo eclipse:eclipse
+  242  ls
+  243  ls -a
+  244  rm .project 
+  245  ssh -l root ds-smc-v.eng.lancope.local
+  246  vi /home/dgerenrot/.ssh/known_hosts 
+  247  vi /home/dgerenrot/.ssh/known_hosts 
+  248  ssh -l root ds-smc-v.eng.lancope.local
+  249  ssh -l root ds-smc-v.eng.lancope.local
+  250  ssh -l root ds-smc-v.eng.lancope.local
+  251  pwd
+  252  cd prog/
+  253  cd lancope
+  254  mvn -Declipse.workspace=/path/to/your/workspace eclipse:add-maven-repo eclipse:eclipse
+  255  mvn -Declipse.workspace='\Users\dgerenrot\prog\lancope\' eclipse:add-maven-repo eclipse:eclipse
+  256  mvn -Declipse.workspace='\Users\dgerenrot\prog\lancope' eclipse:add-maven-repo eclipse:eclipse
+  257  ls
+  258  ls -a
+  259  pwd
+  260  cd Lancope/
+  261  mvn -Declipse.workspace='\Users\dgerenrot\prog\lancope' eclipse:add-maven-repo eclipse:eclipse
+  262  ls -a
+  263  pwd
+  264  cd ..
+  265  rm -rf Lancope/
+  266  ls
+  267  pwd
+  268  cd prog/lancope/Lancope/
+  269  mvn -Pmaven2 -DskipTests=true package
+  270  pwd
+  271  refc
+  272  ssh -l root 10.202.28.52
+  273  ssh -l root 10.202.28.52
+  274  ssh -l root 10.202.28.52
+  275  ls
+  276  pwd
+  277  cd $LCPDIR
+  278  mvn -Pmaven2 -DskipTests=true package
+  279  pwd
+  280  cd Lancope/
+  281  mvn -Pmaven2 -DskipTests=true package
+  282  refc
+  283  mvn -Pmaven2 -DskipTests=true package; refc
+  284  ssh -l root 10.202.5.33
+  285  ssh -l root 10.202.5.33
+  286  clear
+  287  ls
+  288  ping 10.202.5.33
+  289  ping 10.202.5.33
+  290  ssh -l root 10.202.28.53
+  291  ssh -l root ds-smc-v.eng.lancope.local
+  292  ssh -l root 10.202.28.53
+  293  ssh -l root 10.202.28.50
+  294  ssh -l root 10.202.28.53
+  295  pwd
+  296  ssh -l root 10.202.5.33
+  297  vi /home/dgerenrot/.ssh/known_hosts 
+  298  ssh -l root 10.202.5.33
+  299   8#‚8
+  300   PY#PY
+  301  ssh -l root 10.202.28.53
+  302  ssh -l root 10.202.28.53
+  303  ssh -l root ds-smc-v.eng.lancope.local
+  304  vi /home/dgerenrot/.ssh//known_hosts 
+  305  ssh -l root ds-smc-v.eng.lancope.local
+  306  ssh -l root 10.203.0.202
+  307  pwd
+  308  ls
+  309  pwd
+  310  cd prog/
+  311  cd lancope
+  312  ls
+  313  cd Lancope/
+  314  ls
+  315  cd sw-manager-client
+  316  ls
+  317  rhino
+  318  ssh -l root 10.202.5.35
+  319  pwd
+  320  ls
+  321  pwd
+  322  cd prog//lancope
+  323  cd ../java/personal/
+  324  ls
+  325  zip
+  326  ssh -l root 10.202.28.53
+  327  ls
+  328  pwd
+  329  cd ../../lancope/Lancope/
+  330  mvn -Pmaven2 package
+  331  ssh -l root 10.202.28.55
+  332  ssh -l root 10.202.5.35
+  333  ssh -l root 10.202.5.35
+  334  ls
+  335  pwd
+  336  ls
+  337  resmc
+  338  pwd
+  339  mvn -Pmanven2 package
+  340  pwd
+  341  cd prog/lancope
+  342  cd Lancope/
+  343  ls
+  344  mvn -Pmanven2 package
+  345  ssh -l root 10.202.28.53
+  346  mvn -Pmanven2 package
+  347  resmc
+  348  less ~/tmp/smc.log
+  349  mvn -Pmanven2 package
+  350  resmc
+  351  ssh -l root 10.202.28.53
+  352  ssh -l root 10.202.28.53
+  353  cd prog/lancope
+  354  cd Lancope/
+  355  cd ..
+  356  ls
+  357  pwd
+  358  mkdir lc-sst
+  359  cd lc-sst/
+  360  git clone 
+  361  pwd
+  362  pwd
+  363  git clone git://gitorious0.eng.lancope.local/shiny/system-setup-tool.git
+  364  ls
+  365  ls -a
+  366  mv system-setup-tool/ ..
+  367  ls
+  368  cd ..
+  369  ls
+  370  cd system-setup-tool/
+  371  ls
+  372  pwd
+  373  cd ../Lancope/
+  374  grep --include='*java' 'onlineActivation' -r .
+  375  ssh -l root 10.202.28.53
+  376  pwd
+  377  grep -I  SessionManager -r .Â
+  378  grep -I  SessionManager -r .
+  379  grep -I  SessionManager -r .
+  380  pwd
+  381  mvn -Pmaven2 package
+  382  resmc 
+  383  ssh -l root 10.202.38.53
+  384  ssh -l root 10.202.28.53
+  385  mvn -Pmaven2 package
+  386  mvn -Pmaven2 package
+  387  resmc
+  388  less ~/tmp/smc.log
+  389  ssh -l root 10.202.38.53
+  390  ssh -l root 10.202.28.53
+  391  less ~/bin/resmc
+  392  cd sw-manager/maven-target/
+  393  ls
+  394  ll
+  395  mvn -Pmaven2 package
+  396  pwd
+  397  cd ..
+  398  cd ..
+  399  mvn -Pmaven2 package
+  400  resmc
+  401  less ~/tmp/smc.log
+  402  ssh -l root 10.202.28.53
+  403  ppwd
+  404  pwd
+  405  mvn -Pmaven2 package
+  406  pwd
+  407  ssh -l root 10.202.5.35
+  408  ssh -l root 10.203.0.202
+  409  vi /home/dgerenrot/.ssh/known_hosts 
+  410  ssh -l root 10.203.0.202
+  411  ssh -l root 10.203.0.202
+  412  pwd
+  413  resmc
+  414  mvn -Pmaven2 package
+  415  resmc
+  416  pwd
+  417  mvn -Pmaven2 package
+  418  resmc
+  419  less ~/tmp/smc.log
+  420  ssh -l root ds-smc-v.eng.lancope.local
+  421  vi /home/dgerenrot/.ssh/known_hosts 
+  422  \
+  423  ssh -l root ds-smc-v.eng.lancope.local
+  424  ssh -l root 10.202.30.181
+  425  pwd
+  426  mkdir garb
+  427  rm -rf garb/
+  428  mkdir garb
+  429  scp root@10.202.30.181:/lancope/tomcat/webapps/swa.war ./garb/
+  430  cd garb/
+  431  ls
+  432  jar xvf swa.war 
+  433  Â‹cd WEB-INF/lib/
+  434  Â‹cd WEB-INF/lib
+  435  ls
+  436  cd WEB-INF/
+  437  cd lib/
+  438  ls
+  439  mkdir garb
+  440  mc lc-core-1.0-SNAPSHOT.jar garb/
+  441  cd garb/
+  442  cd ..
+  443  cp lc-core-1.0-SNAPSHOT.jar garb/
+  444  cd garb/
+  445  jar xvf l
+  446  jar xvf lc-core-1.0-SNAPSHOT.jar 
+  447  find -name AdminLicenseServiceImpl.java
+  448  find -name AdminLicenseServiceImpl.class
+  449  javap -c ./com/lancope/server/admin/AdminLicenseServiceImpl
+  450  javap -c ./com/lancope/server/admin/AdminLicenseServiceImpl|less
+  451  ssh -l root 10.202.28.55
+  452  pwd
+  453  cd prog
+  454  ls
+  455  cd lc-tomcat/
+  456  ls
+  457  cvs update
+  458  cd ..
+  459  ls
+  460  pwd
+  461  ls
+  462  pwd
+  463  cd lc-tomcat/
+  464  ls
+  465  find -name lc-tomcat
+  466   ssh -l root 10.202.28.53
+  467   ssh -l root 10.202.28.53
+  468  fixup_smc 10.202.28.53
+  469   ssh -l root 10.202.28.53
+  470  ls
+  471  ls /cygdrive/c/
+  472  ls /cygdrive/c/lancope/tomcat/conf
+  473  ls /cygdrive/c/lancope/tomcat/conf
+  474  cd /cygdrive/c/lancope/tomcat/conf
+  475  ls
+  476  ssh -l root 10.202.28.53
+  477  ssh -l root 10.202.28.53
+  478  ssh -l root 10.202.28.52
+  479  ssh -l root 10.202.28.52
+  480  man dig
+  481  man dnslookup
+  482  man nslookup
+  483  nslookup
+  484  nslookup -h
+  485  sl
+  486  ls
+  487  ssh -l root 10.202.28.51
+  488  ssh -l root 10.202.28.52
+  489  ssh -l root 10.202.28.52
+  490  vi /home/dgerenrot/.ssh/known_hosts 
+  491  fixup_smc 10.202.28.52
+  492  ssh -l root 10.202.28.52
+  493  rhino
+  494  python() python
+  495  which python
+  496  ls
+  497  python
+  498  git config --global color.auto
+  499  git config --global
+  500  git help config
+  501  git config --global core.autocrlf input
+  502  git config --global color.ui auto
+  503  git help config
+  504  git config --list
+  505  git config user.email dgerenrot@gmail.com
+  506  git config --global user.email dgerenrot@gmail.com
+  507  pwd
+  508  cd prog/java
+  509  cd personal/
+  510  mkdir gittrain
+  511  mkdir sb1
+  512  cd sb1
+  513  touch index.html
+  514  touch app.js
+  515  touch style.css
+  516  ls
+  517  git status
+  518  git init
+  519  git status
+  520  bash
+  521  notepad++
+  522  pwd
+  523  git add index.html app.js style.css 
+  524  git commit
+  525  git status
+  526  bash
+  527  npp&
+  528  git config --global list
+  529  git config list --global 
+  530  git config --global --list
+  531  pwd
+  532  vi
+  533  vi index.html
+  534  vi app.js
+  535  ls
+  536  git status
+  537  git add app.js index.html 
+  538  git commit -m 'Another commit'
+  539  git status
+  540  git status
+  541  vi index.html 
+  542  vi app.js 
+  543  git reset HEAD index.html 
+  544  git status
+  545  git add .
+  546  git reset HEAD index.html 
+  547  git status
+  548  git diff
+  549  git reset HEAD app.js 
+  550  git diff
+  551  git diff --staged
+  552  git add .
+  553  git diff --staged
+  554  git reset HEAD *
+  555  git diff --staged
+  556  git diff 
+  557  vi index.html 
+  558  git
+  559  git status
+  560  git add app.js 
+  561  vi app.js 
+  562  git diff HEAD app.js 
+  563  git diff --staged app.js 
+  564  git diff --sta app.js 
+  565  git diff  app.js 
+  566  vi style.css 
+  567  git diff --color-words style.css 
+  568  git status
+  569  git diff --color-words app.js 
+  570  git diff --word-diff app.js 
+  571  git status
+  572  git diff|less
+  573  git diff index.html 
+  574  git comit -a -m 'Just put in these changes'
+  575  git commit -a -m 'Just put in these changes'
+  576  git staus
+  577  git status
+  578  git log
+  579  git log --stat
+  580  git log --diff
+  581  git log diff
+  582  git log --stat
+  583  git log -diff
+  584  git log --patch
+  585  history > ../save_git_cmds.txt
+  586  git log -3 --patch --stat
+  587  history > ../save_git_cmds.txt
+  588  pwd
+  589  pwd
+  590  ls
+  591  ls ../
+  592  cd ..
+  593  mv sb1/ gittrain/
+  594  cd sb1
+  595  mv save_git_cmds.txt gittrain/
+  596  cd gittrain/sb1/
+  597  ls
+  598  pwd
+  599  ls ..
+  600  git log --format-raw
+  601  git log --format=raw
+  602  ls ..
+  603  pwd
+  604  history > /cygdrive/c/Users/dgerenrot/prog/java/personal/gittrain/save_git_cmds.txt 
