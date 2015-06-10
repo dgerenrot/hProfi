@@ -1,0 +1,58 @@
+GENERAL
+
+    The "EntireHPROF" object (see below) will have a HashMap<Tag, SomeContainer<Entity>>
+    to store entities by type. Usually, SomeContainer can be a hash map
+    by some IDField, like objectId. The default case can do that.
+    (Case by exact entity class)
+
+    Some exceptional cases may be req-d, most notably, in the case of
+    heap dumps.
+
+    HeapDumpSegment will probably get a nextEntity reference.
+    It will be "EntireHPROF"'s responsibility to organize these.
+
+TODO
+
+    - l is no name for a DataStreamWrapper!
+    - hashcodez? serializable?
+    - getnInstanceFields -- rename
+    - Consider making HPROF store an abstract class (Interface, after all?)
+    - BasTypeTag.readEntryValue = refactor for an DiS
+    - HPROFInStreamLoader - use mapped files (FileChannel, ByteBuffer)
+    - mess with the throwing classcasts in InstanceLayout/HPROFMemoryStore
+
+
+    - We are using those readInt's to read unsigned four bytes, resulting
+      in a wrong value. (sometimes negative)
+
+    - Refactor entries in ClassDump?
+
+    - logging support (http://docs.spring.io/autorepo/docs/spring-data-mongodb/1.4.3.RELEASE/reference/html/ )
+      chap.8.
+
+    - fix pom.xml -- changing loader implementation.
+    - exception handling for malformed HPROFS?
+       (e.g. nFrames != number of actual frame ids that follow)
+    - test serialization?
+    - InstanceDump DumpSubtag may need to be fleshed out after all
+      the field classes are loaded.
+
+
+DONE
+
+    - Separate the InputStream wrapper from the loader class.
+
+    - hprofHeaderInfo
+
+    - readXXX() functions return HPRofMainEntry(). Why not void?
+
+    - Need object for entire HPROF. Cannot be combined with loader.
+      (will keep all the object, indexed by IDField, which will
+       need hashcode).
+
+    - add id class ????
+
+    - Finalize HeapDump and HeapDumpSegment. They need references
+      to next HeapDumpSegment or HeapDumpEnd. These should NOT
+      automatically kickstart loading of the next HeapDumpSegment
+      or HeapDumpEnd tag.

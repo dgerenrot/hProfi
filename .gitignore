@@ -1,2 +1,4 @@
-foo.txt
+.idea/
+target/
+hprofpersist.iml
 
