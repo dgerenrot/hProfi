@@ -1,5 +1,11 @@
 GENERAL
 
+    Change of plans? Create a way to query object subtree. Need to make an object tree
+    out of InstanceDumps so they point to each other through references, not
+    ID fields, then create queries that can traverse the tree csumming up the bytes of
+    matching objects. E.g. all objects whose .name field starts with "T" or
+    is alphabetically between "aardwark" and "elephant.
+
     The "EntireHPROF" object (see below) will have a HashMap<Tag, SomeContainer<Entity>>
     to store entities by type. Usually, SomeContainer can be a hash map
     by some IDField, like objectId. The default case can do that.
@@ -13,14 +19,22 @@ GENERAL
 
 TODO
 
+
+    - Consider making HPROF store an abstract class (Interface, after all?)
+      Some methods in HPROFMemStore should have a prototype in the interface.
+      (getClassDumps(), etc). The entire interface needs to more closely mimic
+      the HPROFMemStore. Should fave getClassDump(IDField), getInstDump(IDField),
+      etc.
+
+    - In MemStore - store by Tag, not class?
+    - What if multiple dumps?
+
     - l is no name for a DataStreamWrapper!
     - hashcodez? serializable?
     - getnInstanceFields -- rename
-    - Consider making HPROF store an abstract class (Interface, after all?)
     - BasTypeTag.readEntryValue = refactor for an DiS
     - HPROFInStreamLoader - use mapped files (FileChannel, ByteBuffer)
     - mess with the throwing classcasts in InstanceLayout/HPROFMemoryStore
-
 
     - We are using those readInt's to read unsigned four bytes, resulting
       in a wrong value. (sometimes negative)
