@@ -10,7 +10,7 @@ import com.websushibar.hprofpersist.dumphproftests.dummyclasses.ClassAReference;
  * java -agentlib:hprof=format=b,doe=y,heap=all,file=$CLASSNAME.hprof  \
  *    com/websushibar/hprofpersist/dumphproftests/$CLASSNAME
  */
-public class ClassAREfAndClassA {
+public class ClassARefAndClassA {
 
     public static void main(String[] args) {
         ClassAIntAndStr ca1 = new ClassAIntAndStr(42, "classARefName");
