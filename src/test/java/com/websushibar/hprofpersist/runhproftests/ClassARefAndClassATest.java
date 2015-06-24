@@ -26,70 +26,30 @@ import static com.websushibar.hprofpersist.utils.Utils.isOfClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class MemStoreArrayAndListOfClassATest {
+public class ClassARefAndClassATest {
 
+    //MemStoreArrayAndListOfClassATest
     public static final String USAGE_ERROR
             = "Path to hprofs and hprof file name required!";
 
     public static final String FILE_MISSING_ERROR
-            = "File not found: ";
+            = "Did you place the .hprof in src/test/resources/ ? File name: ";
 
     public static final String TEST_RES_DIR = "src\\test\\resources\\";
-    // public static final String FILE_NAME = "ArrayAndListOfClassA.hprof";
-    public static final String FILE_NAME = "ClassARefAndClassA_4.hprof";
+
+    public static final String ARRAY_AND_LIST_OF_CLASS_A = "ArrayAndListOfClassA.hprof";
+
     public static final String CLASS_A_REF_4 = "ClassARefAndClassA_4.hprof";
-    public static final String CLASS_0 = "ClassARefAndClassA.hprof";
+    public static final String CLASS_A_REF_0 = "ClassARefAndClassA.hprof";
 
     public static final String CLASS_UNDER_TEST = "ClassAIntAndStr";
 
     File hprofUnderTest;
 
-    /**
-     *
-     * @throws IOException
-     */
-    @Test
-    public void find42() throws IOException {
-
-        RandomAccessFile dis = new RandomAccessFile((hprofUnderTest), "r");
-        try {
-            for (int i = 0; ; i++) {
-                dis.seek(i);
-                long n = dis.readLong();
-                //3273761640L
-//                if (n == 3273761752L) {
-//                    System.out.println("Found at " + i);
-//                }
-                if (n == 3273761640L) {
-                    System.out.println("Found at " + i);
-                }
-            }
-        } catch (EOFException e) {
-
-        } finally {
-            dis.close();
-        }
-    }
-
 
     @Test
-    public void shouldLoadNoProblem() throws IOException {
-        HPROFInStreamLoader loader
-                = new HPROFInStreamLoader(new FileInputStream(hprofUnderTest));
-        HPROFMemoryStore store = new HPROFMemoryStore();
-
-        loader.loadInto(store);
-        store.initDumpSubtags();
-    }
-
-    @Test
-    public void shouldFindString() throws IOException {
-        HPROFInStreamLoader loader
-                = new HPROFInStreamLoader(new FileInputStream(hprofUnderTest));
-        HPROFMemoryStore store = new HPROFMemoryStore();
-
-        loader.loadInto(store);
-        store.initDumpSubtags();
+    public void shouldFindStringMyObjStringInARR_AND_LIST() throws IOException {
+        HPROFMemoryStore store = loadMemStore(ARRAY_AND_LIST_OF_CLASS_A);
 
         int count = 0;
 
@@ -99,22 +59,25 @@ public class MemStoreArrayAndListOfClassATest {
             }
         }
 
-        System.out.println("SZ == " + store.getStringsById().size());
         assertEquals(1, count);
-
     }
 
-
+    @Test
+    public void shouldFindStringFields_0() throws IOException {
+        shouldFindStringFields(CLASS_A_REF_0);
+    }
 
     @Test
-    public void shouldFindStringFields() throws IOException {
-        HPROFInStreamLoader loader = null;
+    public void shouldFindStringFields_4() throws IOException {
+        shouldFindStringFields(CLASS_A_REF_4);
+    }
 
-        HPROFMemoryStore store = loadMemStore(CLASS_A_REF_4);
+    private void shouldFindStringFields(String fileName) throws IOException {
+        HPROFMemoryStore store = loadMemStore(fileName);
 
         IDField stringClassId = null;
-        IDField cutId = null;
-        IDField refClId = null;
+        IDField classUnderTest = null;
+        IDField referringClassId = null;
 
         for (Map.Entry<IDField, LoadClass> entry : store.getClassesById().entrySet()) {
             StringEntry className = store.getStringsById().get(entry.getValue().getClassNameStringId());
@@ -128,15 +91,15 @@ public class MemStoreArrayAndListOfClassATest {
 
             if (className.getContent().contains(CLASS_UNDER_TEST)
                     && ! className.getContent().contains("[")) {
-                cutId = entry.getKey();
+                classUnderTest = entry.getKey();
             }
-            if (refClId == null && className.getContent().contains("ClassAReference")) {
-                refClId = entry.getKey();
+            if (referringClassId == null && className.getContent().contains("ClassAReference")) {
+                referringClassId = entry.getKey();
             }
         }
 
-        assertNotNull(refClId);
-        assertNotNull(cutId);
+        assertNotNull(referringClassId);
+        assertNotNull(classUnderTest);
 
         InstanceDump refClInst = null;
         DumpSubtagEntry fieldEntry = null;
@@ -144,11 +107,11 @@ public class MemStoreArrayAndListOfClassATest {
         Collection<InstanceDump> instDumps = store.getInstanceDumpsById().values();
 
 
-//        Collection < DumpSubtagEntry > refClContains = filter(classes, idEquals(refClId));
-//        Collection<DumpSubtagEntry> cutContains = filter(classes, idEquals(cutId));
+//        Collection < DumpSubtagEntry > refClContains = filter(classes, idEquals(referringClassId));
+//        Collection<DumpSubtagEntry> cutContains = filter(classes, idEquals(classUnderTest));
 
-        Collection<InstanceDump> refClDumpContains = filter(instDumps, isOfClass(refClId));
-        Collection<InstanceDump> cutDumpContains = filter(instDumps, isOfClass(cutId));
+        Collection<InstanceDump> refClDumpContains = filter(instDumps, isOfClass(referringClassId));
+        Collection<InstanceDump> cutDumpContains = filter(instDumps, isOfClass(classUnderTest));
         Collection <IDField> loadClassIds = transform(store.getClassesById().values(),
                 new Function<LoadClass, IDField>() {
                     @Override
@@ -162,7 +125,6 @@ public class MemStoreArrayAndListOfClassATest {
 
         Collection<ClassDump> classDumps = store.getClassDumpById().values();
         assertEquals(classDumps.size(), loadClassIds.size());
-        System.out.println("SZ == " + store.getStringsById().size());
 //        assertEquals(1, count);
 
     }
@@ -214,7 +176,8 @@ public class MemStoreArrayAndListOfClassATest {
     }
 
 
-    private static File loadHprofForTest(String fileName) {
+    private static File loadHprofForTest(String fileName)
+            throws FileNotFoundException {
         File testHprofDir = new File(TEST_RES_DIR);
 
         final String hprofFileName = fileName;
@@ -227,7 +190,7 @@ public class MemStoreArrayAndListOfClassATest {
         });
 
         if (hprofs.length < 1) {
-            throw new IllegalArgumentException(FILE_MISSING_ERROR + hprofFileName);
+            throw new FileNotFoundException(FILE_MISSING_ERROR + hprofFileName);
         }
 
         return hprofs[0];
