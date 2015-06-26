@@ -14,6 +14,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -45,6 +47,8 @@ public class ClassARefAndClassATest {
     //            *    com/websushibar/hprofpersist/dumphproftests/$CLASSNAME
 
     public static final String CLASS_A_REF_VIS_VM_4 = "ClassARefAndClassA_VisVM_4.hprof";
+
+    // This is a bad dump file. InstanceDump byte[] values are empty.
     public static final String CLASS_A_REF_AGENTLIB_0 = "ClassARefAndClassA_Agentlib_0.hprof";
 
     public static final String CLASS_A_NAME = "ClassAIntAndStr";
@@ -67,10 +71,11 @@ public class ClassARefAndClassATest {
         assertEquals(1, count);
     }
 
-    @Test
-    public void ObjOfClassARefShouldHaveRefToClassA_Agtlib_0() throws IOException {
-        ObjOfClassARefShouldHaveRefToClassA(CLASS_A_REF_AGENTLIB_0);
-    }
+
+//    @Test
+//    public void ObjOfClassARefShouldHaveRefToClassA_Agtlib_0() throws IOException {
+//        ObjOfClassARefShouldHaveRefToClassA(CLASS_A_REF_AGENTLIB_0);
+//    }
 
     @Test
     public void ObjOfClassARefShouldHaveRefToClassA_VisVM_4() throws IOException {
@@ -133,7 +138,7 @@ public class ClassARefAndClassATest {
                         return loadClass.getId();
                     }
                 });
-        Collection<ClassDump> classDumps = store.getClassDumpById().values();
+        Collection<ClassDump> classDumps = store.getClassDumpsById().values();
         assertEquals(classDumps.size(), loadClassIds.size());
     }
 
@@ -167,7 +172,7 @@ public class ClassARefAndClassATest {
 
     @Test
     public void shouldFindSubtag() throws IOException {
-        HPROFMemoryStore store = loadMemStore(CLASS_A_REF_AGENTLIB_0);
+        HPROFMemoryStore store = loadMemStore(CLASS_A_REF_VIS_VM_4);
 
         InstanceLayoutFactory factory = getLayoutFactory(store, CLASS_A_NAME);
 
@@ -179,19 +184,22 @@ public class ClassARefAndClassATest {
         List<String> strings = new ArrayList<>();
         List<Integer> ints = new ArrayList<>();
 
+        instanceDumps = filter(instanceDumps, isOfClass(classALayout.getClassObjId()));
+
+        assertEquals(1, instanceDumps.size());
+
         for (InstanceDump instDump : instanceDumps) {
             IDField stringFieldId = classALayout.getObjIdField(instDump, "stringField");
-            StringEntry stringEntry = store.getObject(stringFieldId);
+            InstanceDump stringDump = store.getInstanceDump(stringFieldId);
             int intField = classALayout.getIntField(instDump, "intField");
 
-            strings.add(stringEntry.getContent());
+            strings.add(String.valueOf(StandardCharsets.UTF_8.decode(ByteBuffer.wrap(stringDump.getValues()))));
             ints.add(intField);
         }
     }
 
     private  InstanceLayoutFactory getLayoutFactory(HPROFMemoryStore store, String simpleClassName) {
-        Map<IDField, ClassDump> subtagEntries = store.getClassDumpById();
-
+        Map<IDField, ClassDump> subtagEntries = store.getClassDumpsById();
 
         for (ClassDump classDump : subtagEntries.values()) {
 
@@ -199,7 +207,7 @@ public class ClassARefAndClassATest {
 
             StringEntry stringEntry = store.getObject(loadClass.getClassNameStringId());
 
-            if (stringEntry.getContent().matches("^.*\\." + simpleClassName + "$")) {
+            if (stringEntry.getContent().matches("^.*[./]" + simpleClassName + "$")) {
                 return new InstanceLayoutFactory(store, loadClass);
             }
         }

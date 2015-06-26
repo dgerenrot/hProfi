@@ -28,6 +28,7 @@ TODO
 
     - In MemStore - store by Tag, not class?
     - What if multiple dumps?
+    - So, we added a couple of .hprofs. Do we add all of them?
 
     - l is no name for a DataStreamWrapper!
     - hashcodez? serializable?

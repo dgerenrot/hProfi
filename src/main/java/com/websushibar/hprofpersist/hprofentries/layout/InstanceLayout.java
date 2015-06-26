@@ -3,7 +3,9 @@ package com.websushibar.hprofpersist.hprofentries.layout;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.websushibar.hprofpersist.hprofentries.IDField;
+import com.websushibar.hprofpersist.hprofentries.LoadClass;
 import com.websushibar.hprofpersist.hprofentries.dumpSubtags.BasicTypeTag;
+import com.websushibar.hprofpersist.hprofentries.dumpSubtags.ClassDump;
 import com.websushibar.hprofpersist.hprofentries.dumpSubtags.InstanceDump;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -18,6 +20,10 @@ public class InstanceLayout {
     protected Map<String, Integer> offsetByField = new HashMap<>();
     protected Map<String, BasicTypeTag> baseTypeByField = new HashMap<>();
     protected InstanceLayout parentLayout;
+
+    protected IDField classObjId;
+    protected ClassDump classDump;
+    protected LoadClass loadClass;
 
     protected InstanceLayout() {
     }
@@ -35,7 +41,7 @@ public class InstanceLayout {
 
         byte[] idBytes = ArrayUtils.subarray(dump.getValues(),
                 offset + offsetByField.get(field),
-                IDField.getSize());
+                offset + offsetByField.get(field) + IDField.getSize());
 
         return IDField.fromByteArray(idBytes);
     }
@@ -53,7 +59,7 @@ public class InstanceLayout {
 
         byte[] bytes = ArrayUtils.subarray(dump.getValues(),
                 offset + offsetByField.get(field),
-                Longs.BYTES);
+                offset + offsetByField.get(field) + Longs.BYTES);
 
         return Longs.fromByteArray(bytes);
     }
@@ -71,7 +77,7 @@ public class InstanceLayout {
 
         byte[] bytes = ArrayUtils.subarray(dump.getValues(),
                 offset + offsetByField.get(field),
-                Ints.BYTES);
+                offset + offsetByField.get(field) + Ints.BYTES);
 
         return Ints.fromByteArray(bytes);
     }
@@ -88,6 +94,8 @@ public class InstanceLayout {
         offset = parentLayout.length;
     }
 
+    // TODO : other primitive types?
+
     public int getStartPos() { return offset; }
 
     public int getEndPos() {return offset + length; }
@@ -98,6 +106,34 @@ public class InstanceLayout {
 
     public int getLength() {
         return length;
+    }
+
+
+    ///////////////////////////////////////////////////////
+    // Class info getters / setters.
+
+    public IDField getClassObjId() {
+        return classObjId;
+    }
+
+    public void setClassObjId(IDField classObjId) {
+        this.classObjId = classObjId;
+    }
+
+    public ClassDump getClassDump() {
+        return classDump;
+    }
+
+    public void setClassDump(ClassDump classDump) {
+        this.classDump = classDump;
+    }
+
+    public LoadClass getLoadClass() {
+        return loadClass;
+    }
+
+    public void setLoadClass(LoadClass loadClass) {
+        this.loadClass = loadClass;
     }
 
 }

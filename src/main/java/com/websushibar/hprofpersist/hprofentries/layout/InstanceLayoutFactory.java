@@ -6,7 +6,6 @@ import com.websushibar.hprofpersist.hprofentries.StringEntry;
 import com.websushibar.hprofpersist.hprofentries.dumpSubtags.BasicTypeTag;
 import com.websushibar.hprofpersist.hprofentries.dumpSubtags.ClassDump;
 import com.websushibar.hprofpersist.hprofentries.dumpSubtags.ClassDump.InstanceField;
-import com.websushibar.hprofpersist.hprofentries.exceptions.HPROFFormatException;
 import com.websushibar.hprofpersist.store.HPROFStore;
 
 import java.util.ArrayList;
@@ -23,12 +22,20 @@ public class InstanceLayoutFactory {
     protected HashMap<String, Integer> byteOffsetsByFieldName;
     protected HashMap<String, BasicTypeTag> typesByFieldName;
 
+    protected IDField classObjId;
+    protected ClassDump classDump;
+    protected LoadClass loadClass;
+
     public InstanceLayoutFactory(HPROFStore store, LoadClass loadClass) {
         this.store = store;
 
         classHierarchy = new ArrayList<>();
-        IDField classObjId = loadClass.getClassObjId();
-        classHierarchy.add(tryGetClass(classObjId));
+
+        this.loadClass = loadClass;
+        this.classObjId = loadClass.getClassObjId();
+        this.classDump = store.getClassDump(classObjId);
+
+        classHierarchy.add(classDump);
         addAncestors();
     }
 
@@ -36,6 +43,11 @@ public class InstanceLayoutFactory {
         this.store = store;
 
         classHierarchy = new ArrayList<>();
+
+        this.classObjId = classDump.getId();
+        this.classDump = classDump;
+        this.loadClass = store.getLoadClass(classObjId);
+
         this.classHierarchy.add(classDump);
         addAncestors();
     }
@@ -44,12 +56,21 @@ public class InstanceLayoutFactory {
         this.store = store;
 
         classHierarchy = new ArrayList<>();
-        classHierarchy.add(tryGetClass(classObjId));
+
+        this.classObjId = classObjId;
+        this.classDump = store.getClassDump(classObjId);
+        this.loadClass = store.getLoadClass(classObjId);
+
+        this.classHierarchy.add(classDump);
         addAncestors();
     }
 
     public InstanceLayout buildInstanceLayout() {
         InstanceLayout retVal = new InstanceLayout();
+
+        retVal.setClassDump(classDump);
+        retVal.setLoadClass(loadClass);
+        retVal.setClassObjId(classObjId);
 
         InstanceLayout currLayout = retVal;
 
@@ -82,17 +103,7 @@ public class InstanceLayoutFactory {
     }
 
     protected ClassDump tryGetClass(IDField id) {
-        if (store.getObject(id) == null) {
-            throw new HPROFFormatException(
-                    "ObjectId for a class refers to non-existent entry!\n" + id );
-        }
-
-        try {
-            return (ClassDump)store.getObject(id);
-        } catch (ClassCastException e) {
-            throw new HPROFFormatException(
-                    "ObjectId refers to a non-ClassDump entry!\n" + id );
-        }
+        return store.getClassDump(id);
     }
 
     protected void addAncestors() {
@@ -109,9 +120,21 @@ public class InstanceLayoutFactory {
         }
     }
 
-
     public HPROFStore getHPROFStore() {
         return store;
+    }
+
+
+    public IDField getClassObjId() {
+        return classObjId;
+    }
+
+    public ClassDump getClassDump() {
+        return classDump;
+    }
+
+    public LoadClass getLoadClass() {
+        return loadClass;
     }
 
 }

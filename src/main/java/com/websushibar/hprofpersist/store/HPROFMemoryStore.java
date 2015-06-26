@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HPROFMemoryStore extends HPROFStore{
+public class HPROFMemoryStore extends HPROFStore {
 
     private Map<Class<? extends HasId>, Map<IDField, ? extends HasId>> idRegisters
         = new HashMap<>();
@@ -156,6 +156,93 @@ public class HPROFMemoryStore extends HPROFStore{
         return false;
     }
 
+    // TODO : multiple HPROF dumps in one .hprof file???
+
+    @Override
+    public int getNumLoadClasses() {
+        return classesById.size();
+    }
+
+    @Override
+    public int getNumStringEntries() {
+        return stringsById.size();
+    }
+
+    @Override
+    public int getNumClassDumps() {
+        return getStorage(ClassDump.class).size();
+    }
+
+    @Override
+    public int getNumInstanceDumps() {
+        return getStorage(InstanceDump.class).size();
+    }
+
+
+    @Override
+    public LoadClass getLoadClass(IDField id) {
+        return classesById.get(id);
+    }
+
+    @Override
+    public LoadClass getLoadClass(long id) {
+        return classesById.get(new IDField(id));
+    }
+
+    @Override
+    public LoadClass getLoadClass(byte[] id) {
+        return classesById.get(new IDField(id));
+    }
+
+
+    @Override
+    public StringEntry getString(IDField id) {
+        return stringsById.get(id);
+    }
+
+    @Override
+    public StringEntry getString(long id) {
+        return stringsById.get(new IDField(id));
+    }
+
+    @Override
+    public StringEntry getString(byte[] id) {
+        return stringsById.get(new IDField(id));
+    }
+
+
+    @Override
+    public ClassDump getClassDump(IDField id) {
+        return getClassDumpsById().get(id);
+    }
+
+    @Override
+    public ClassDump getClassDump(long id) {
+        return getClassDumpsById().get(new IDField(id));
+    }
+
+    @Override
+    public ClassDump getClassDump(byte[] id) {
+        return getClassDumpsById().get(id);
+    }
+
+
+    @Override
+    public InstanceDump getInstanceDump(IDField id) {
+        return getInstanceDumpsById().get(id);
+    }
+
+    @Override
+    public InstanceDump getInstanceDump(long id) {
+        return getInstanceDumpsById().get(new IDField(id));
+    }
+
+    @Override
+    public InstanceDump getInstanceDump(byte[] id) {
+        return getInstanceDumpsById().get(id);
+    }
+
+
     public Map<IDField, LoadClass> getClassesById() {
         return classesById;
     }
@@ -176,7 +263,7 @@ public class HPROFMemoryStore extends HPROFStore{
         return getStorage(InstanceDump.class);
     }
 
-    public Map<IDField, ClassDump> getClassDumpById() {
+    public Map<IDField, ClassDump> getClassDumpsById() {
         return getStorage(ClassDump.class);
     }
 
