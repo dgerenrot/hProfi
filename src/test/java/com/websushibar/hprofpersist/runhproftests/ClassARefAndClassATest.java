@@ -188,14 +188,17 @@ public class ClassARefAndClassATest {
 
         assertEquals(1, instanceDumps.size());
 
-        for (InstanceDump instDump : instanceDumps) {
-            IDField stringFieldId = classALayout.getObjIdField(instDump, "stringField");
-            InstanceDump stringDump = store.getInstanceDump(stringFieldId);
-            int intField = classALayout.getIntField(instDump, "intField");
+        InstanceDump instDump = instanceDumps.iterator().next();
 
-            strings.add(String.valueOf(StandardCharsets.UTF_8.decode(ByteBuffer.wrap(stringDump.getValues()))));
-            ints.add(intField);
-        }
+        IDField stringFieldId = classALayout.getObjIdField(instDump, "stringField");
+
+        InstanceDump stringDump = store.getInstanceDump(stringFieldId);
+        int intValue = classALayout.getIntField(instDump, "intField");
+
+        String stringValue = (StandardCharsets.US_ASCII.decode(ByteBuffer.wrap(stringDump.getValues()))).toString();
+        strings.add(stringValue);
+        ints.add(intValue);
+        assertEquals(42, intValue);
     }
 
     private  InstanceLayoutFactory getLayoutFactory(HPROFMemoryStore store, String simpleClassName) {
