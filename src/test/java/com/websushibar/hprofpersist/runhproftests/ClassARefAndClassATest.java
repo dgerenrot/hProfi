@@ -16,9 +16,7 @@ import org.junit.Test;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import static com.google.common.collect.Collections2.filter;
@@ -181,8 +179,6 @@ public class ClassARefAndClassATest {
         Assert.assertNotNull(classALayout);
 
         Collection<InstanceDump> instanceDumps = store.getInstanceDumpsById().values();
-        List<String> strings = new ArrayList<>();
-        List<Integer> ints = new ArrayList<>();
 
         instanceDumps = filter(instanceDumps, isOfClass(classALayout.getClassObjId()));
 
@@ -193,11 +189,14 @@ public class ClassARefAndClassATest {
         IDField stringFieldId = classALayout.getObjIdField(instDump, "stringField");
 
         InstanceDump stringDump = store.getInstanceDump(stringFieldId);
+
         int intValue = classALayout.getIntField(instDump, "intField");
 
-        String stringValue = (StandardCharsets.US_ASCII.decode(ByteBuffer.wrap(stringDump.getValues()))).toString();
-        strings.add(stringValue);
-        ints.add(intValue);
+        ByteBuffer byteBuff = ByteBuffer.wrap(stringDump.getValues());
+
+        String stringValue = StandardCharsets.US_ASCII.decode(byteBuff)
+                                                      .toString();
+
         assertEquals(42, intValue);
     }
 
