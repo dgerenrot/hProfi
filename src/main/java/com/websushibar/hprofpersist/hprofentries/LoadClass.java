@@ -1,9 +1,11 @@
 package com.websushibar.hprofpersist.hprofentries;
 
 import com.websushibar.hprofpersist.loader.DataInputStreamWrapper;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.IOException;
 
+@Document(collection="hprofLoadClasses")
 public class LoadClass extends HPROFMainEntry
         implements HasId{
 

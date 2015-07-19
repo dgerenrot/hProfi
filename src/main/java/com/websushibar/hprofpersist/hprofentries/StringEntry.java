@@ -1,11 +1,13 @@
 package com.websushibar.hprofpersist.hprofentries;
 
 import com.websushibar.hprofpersist.loader.DataInputStreamWrapper;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
+@Document(collection="hprofStrings")
 public class StringEntry extends HPROFMainEntry
         implements HasId{
 

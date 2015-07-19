@@ -2,6 +2,7 @@ package com.websushibar.hprofpersist.hprofentries.dumpSubtags;
 
 import com.websushibar.hprofpersist.hprofentries.IDField;
 import com.websushibar.hprofpersist.loader.DataInputStreamWrapper;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -12,6 +13,8 @@ import java.util.List;
 import static com.websushibar.hprofpersist.hprofentries.dumpSubtags.BasicTypeTag.getByValue;
 import static com.websushibar.hprofpersist.hprofentries.dumpSubtags.BasicTypeTag.readEntryValue;
 
+
+@Document(collection="hprofClassDumps")
 public class  ClassDump  extends AbstractObjDump {
 
     private IDField superClassObjId;

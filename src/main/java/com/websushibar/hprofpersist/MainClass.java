@@ -43,7 +43,7 @@ public class MainClass {
 
     private void doMain(String[] args) throws IOException {
 
-        // MongoOperations opers = context.getBean(MongoOperations.class);
+//        MongoOperations opers = context.getBean(MongoOperations.class);
 
 //        for (Dummy dummy : DUMMY_DATA) {
 //            opers.insert(dummy, TEST_COLLECTION);
@@ -64,10 +64,7 @@ public class MainClass {
 
         in.read();
 
-//        opers.dropCollection(TEST_COLLECTION);
-
         out.println("all done");
-
     }
 
 }

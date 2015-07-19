@@ -1,5 +1,8 @@
 package com.websushibar.hprofpersist.hprofentries;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection="hprofHeader")
 public class HPROFHeaderInfo {
 
     private String fmtAndVersion;

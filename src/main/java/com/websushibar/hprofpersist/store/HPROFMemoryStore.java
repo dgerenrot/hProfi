@@ -1,15 +1,17 @@
-package com.websushibar.hprofpersist.store;
+ package com.websushibar.hprofpersist.store;
 
 import com.websushibar.hprofpersist.hprofentries.*;
-import com.websushibar.hprofpersist.hprofentries.dumpSubtags.*;
+import com.websushibar.hprofpersist.hprofentries.dumpSubtags.ClassDump;
+import com.websushibar.hprofpersist.hprofentries.dumpSubtags.DumpSubtagEntry;
+import com.websushibar.hprofpersist.hprofentries.dumpSubtags.InstanceDump;
 import com.websushibar.hprofpersist.hprofentries.exceptions.HPROFFormatException;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public class HPROFMemoryStore extends HPROFStore {
+import static com.google.common.collect.Collections2.filter;
+import static com.websushibar.hprofpersist.utils.Utils.isOfClass;
+
+ public class HPROFMemoryStore extends HPROFStore {
 
     private Map<Class<? extends HasId>, Map<IDField, ? extends HasId>> idRegisters
         = new HashMap<>();
@@ -40,22 +42,11 @@ public class HPROFMemoryStore extends HPROFStore {
 
     }
 
-    private void initDumpSubtagIdRegisters() {
-        idRegisters.put(ClassDump.class, new HashMap<IDField, HasId>());
-        idRegisters.put(InstanceDump.class, new HashMap<IDField, HasId>());
-        idRegisters.put(ObjectArrayDump.class, new HashMap<IDField, HasId>());
-        idRegisters.put(PrimitiveArrayDump.class, new HashMap<IDField, HasId>());
-        idRegisters.put(RootJavaFrame.class, new HashMap<IDField, HasId>());
-        idRegisters.put(RootJNIGlobal.class, new HashMap<IDField, HasId>());
-        idRegisters.put(RootJNILocal.class, new HashMap<IDField, HasId>());
-        idRegisters.put(RootMonitorUsed.class, new HashMap<IDField, HasId>());
-        idRegisters.put(RootNativeStack.class, new HashMap<IDField, HasId>());
-        idRegisters.put(RootStickyClass.class, new HashMap<IDField, HasId>());
-        idRegisters.put(RootThreadBlock.class, new HashMap<IDField, HasId>());
-        idRegisters.put(RootThreadObject.class, new HashMap<IDField, HasId>());
-        idRegisters.put(RootUnknown.class, new HashMap<IDField, HasId>());
+    @Override
+    protected void registerIdAbleClass(Class<? extends HasId> clazz)
+    {
+        idRegisters.put(clazz, new HashMap<IDField, HasId>());
     }
-
 
     @SuppressWarnings(value = "unchecked")
     @Override
@@ -63,7 +54,7 @@ public class HPROFMemoryStore extends HPROFStore {
         Tag tag = entry.getTag();
 
         Map<IDField, ? extends HasId> quald = new HashMap();
-        idRegisters.put(ClassDump.class, new HashMap<IDField, HasId>());
+        registerIdAbleClass(ClassDump.class);
 
         if (byTag.get(tag) == null) {
             byTag.put(tag, new ArrayList<HPROFMainEntry>());
@@ -242,6 +233,30 @@ public class HPROFMemoryStore extends HPROFStore {
         return getInstanceDumpsById().get(id);
     }
 
+    @Override
+    public Collection<InstanceDump> instDumpsByClass(IDField classId) {
+        return filter(getInstanceDumpsById().values(), isOfClass(classId));
+    }
+
+     @Override
+     public Collection<LoadClass> loadClassesMatchingName(String name) {
+
+         HashSet<LoadClass> retVal = new HashSet<>();
+
+         for (LoadClass loadClass : classesById.values()) {
+
+             StringEntry stringEntry = getString(loadClass.getClassNameStringId());
+
+             if (stringEntry.getContent().matches("^.*[./]" + name + "$")) {
+                 retVal.add(loadClass);
+             }
+         }
+
+         return retVal;
+     }
+
+
+     // TODO : StackFrames, Theads, ArrayDumps, and all other HasIds?
 
     public Map<IDField, LoadClass> getClassesById() {
         return classesById;

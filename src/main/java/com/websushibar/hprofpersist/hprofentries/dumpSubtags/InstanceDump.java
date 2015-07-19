@@ -2,10 +2,12 @@ package com.websushibar.hprofpersist.hprofentries.dumpSubtags;
 
 import com.websushibar.hprofpersist.loader.DataInputStreamWrapper;
 import com.websushibar.hprofpersist.hprofentries.IDField;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.IOException;
 
 
+@Document(collection="hprofInstanceDumps")
 public class InstanceDump  extends AbstractObjDump {
 
     private IDField classObjId;

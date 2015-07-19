@@ -20,20 +20,19 @@ public class SpringConfig {
 
     public static String HOST = "localhost";
 
-    
-    public static String TEST_COLLECTION = "dummyCollection";
-    public static String TEST_DB = "tryMongoDb";
+    public static String HPROFI_INST_DB = "hProfiInstance";
+
 //
 //    @Bean
 //    public MongoOperations mongoOperations() throws UnknownHostException {
-//        MongoOperations opers = new MongoTemplate(new MongoClient(HOST), TEST_DB);
+//        MongoOperations opers = new MongoTemplate(new MongoClient(HOST), HPROFI_INST_DB);
 //        return opers;
 //    }
 
     @Bean
     public MongoDbFactory mongoDbFactory() throws UnknownHostException {
         return new SimpleMongoDbFactory(new MongoClient(
-                HOST),TEST_DB);
+                HOST), HPROFI_INST_DB);
     }
 
     @Bean

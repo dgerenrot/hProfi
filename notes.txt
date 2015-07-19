@@ -19,17 +19,17 @@ GENERAL
 
 TODO
 
-
     - Consider making HPROF store an abstract class (Interface, after all?)
       Some methods in HPROFMemStore should have a prototype in the interface.
-      (getClassDumps(), etc). The entire interface needs to more closely mimic
-      the HPROFMemStore. Should fave getClassDump(IDField), getInstDump(IDField),
+      (getClassDumps(), etc). That interface needs to more closely mimic
+      the HPROFMemStore. Should have getClassDump(IDField), getInstDump(IDField),
       etc.
+
+    - HPROFStore - missing methods for StackFrames, Theads, ArrayDumps? Other HasId's?
 
     - In MemStore - store by Tag, not class?
     - What if multiple dumps?
-    - So, we added a couple of .hprofs. Do we add all of them?
-
+    - So, we added a couple of .hprofs for testing. Do we add all of them?
     - l is no name for a DataStreamWrapper!
     - hashcodez? serializable?
     - getnInstanceFields -- rename
@@ -49,7 +49,8 @@ TODO
     - exception handling for malformed HPROFS?
        (e.g. nFrames != number of actual frame ids that follow)
     - test serialization?
-    - InstanceDump DumpSubtag may need to be fleshed out after all
+
+    - InstanceDump may need to be fleshed out after all
       the field classes are loaded.
 
 

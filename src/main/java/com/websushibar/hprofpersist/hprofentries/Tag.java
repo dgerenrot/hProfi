@@ -31,6 +31,10 @@ public enum Tag {
     private static EnumMap<Tag, Class<? extends HPROFMainEntry>> classByTag
             = new EnumMap<Tag, Class<? extends HPROFMainEntry>>(Tag.class);
 
+    private int code;
+
+    private Class<? extends HPROFMainEntry> hprofClazz;
+
     static
     {
         classByTag.put(STRING, StringEntry.class);
@@ -70,7 +74,6 @@ public enum Tag {
         return tagByCode.get(code);
     }
 
-
     public static Class<? extends HPROFMainEntry> getClassByTag(Tag t) {
         return classByTag.get(t);
     }
@@ -79,16 +82,11 @@ public enum Tag {
         return code;
     }
 
-    private int code;
-
-    private Class<? extends HPROFMainEntry> hprofClazz;
-
     private Tag(int code) {
 
         this.code = code;
         // tagByCode.put(code, this);
     }
-
 
     public Class<? extends HPROFMainEntry> getHPROFClazz() {
         return hprofClazz;
