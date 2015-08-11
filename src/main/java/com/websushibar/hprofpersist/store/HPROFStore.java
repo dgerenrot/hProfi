@@ -44,6 +44,7 @@ public abstract class HPROFStore {
 
     public abstract void addHPROFEntry(HPROFMainEntry entry);
 
+    // TODO
     public  <T extends HasId>  T getObject(IDField objId) {
 
         if (objId.equals(IDField.NULL_ID))
@@ -59,6 +60,7 @@ public abstract class HPROFStore {
         return retVal;
     }
 
+    // TODO
     public <T extends HasId>  T  getObject(byte ... bytes) {
         return getObject(new IDField(bytes));
     }
@@ -108,9 +110,10 @@ public abstract class HPROFStore {
 
     public abstract InstanceDump getInstanceDump(byte[] id);
 
-    public abstract Collection<InstanceDump> instDumpsByClass(IDField classId);
+    public abstract Collection<InstanceDump> instDumps(IDField classId);
 
     public abstract Collection<LoadClass> loadClassesMatchingName(String name);
 
+    // TODO
     protected abstract <T extends HasId>  T lookupById(IDField id);
 }

@@ -199,7 +199,7 @@ public class MongoStorage extends HPROFStore {
     }
 
     @Override
-    public Collection<InstanceDump> instDumpsByClass(IDField classId)  {
+    public Collection<InstanceDump> instDumps(IDField classId)  {
         throw new RuntimeException("Not implemented!");
     }
 

@@ -13,8 +13,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.*;
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
 import static org.junit.Assert.*;
@@ -93,14 +91,15 @@ public class ClassARefAndClassATest {
 
             if (!className.getContent().contains("[")) {
                 classUnderTestId = lc.getId();
+                break;
             }
         }
 
         assertNotNull(referringClassId);
         assertNotNull(classUnderTestId);
 
-        Collection<InstanceDump> refClDumpContains = store.instDumpsByClass(referringClassId);
-        Collection<InstanceDump> cutDumpContains = store.instDumpsByClass(classUnderTestId);
+        Collection<InstanceDump> refClDumpContains = store.instDumps(referringClassId);
+        Collection<InstanceDump> cutDumpContains = store.instDumps(classUnderTestId);
 
         assertEquals(1, refClDumpContains.size());
         assertEquals(1, cutDumpContains.size());
@@ -158,7 +157,7 @@ public class ClassARefAndClassATest {
 
         Assert.assertNotNull(classALayout);
 
-        Collection<InstanceDump> instanceDumps = store.instDumpsByClass(classALayout.getClassObjId());
+        Collection<InstanceDump> instanceDumps = store.instDumps(classALayout.getClassObjId());
 
         assertEquals(1, instanceDumps.size());
 
@@ -166,14 +165,16 @@ public class ClassARefAndClassATest {
 
         IDField stringFieldId = classALayout.getObjIdField(instDump, "stringField");
 
-        InstanceDump stringDump = store.getInstanceDump(stringFieldId);
+        // Strings are laid out using reference to primitive arrays of characters
+        // InstanceDump stringDump = store.getInstanceDump(stringFieldId);
 
         int intValue = classALayout.getIntField(instDump, "intField");
 
-        ByteBuffer byteBuff = ByteBuffer.wrap(stringDump.getValues());
+        //ByteBuffer byteBuff = ByteBuffer.wrap(stringDump.getValues());
 
-        String stringValue = StandardCharsets.US_ASCII.decode(byteBuff)
-                                                      .toString();
+
+        //String stringValue = StandardCharsets.ISO_8859_1.decode(byteBuff)
+        //                                                 .toString();
 
         assertEquals(42, intValue);
     }

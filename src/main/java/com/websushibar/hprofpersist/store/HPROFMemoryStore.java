@@ -37,14 +37,8 @@ import static com.websushibar.hprofpersist.utils.Utils.isOfClass;
         initDumpSubtagIdRegisters();
     }
 
-
-    private void addForClass(Class<? extends HasId> clazz) {
-
-    }
-
     @Override
-    protected void registerIdAbleClass(Class<? extends HasId> clazz)
-    {
+    protected void registerIdAbleClass(Class<? extends HasId> clazz) {
         idRegisters.put(clazz, new HashMap<IDField, HasId>());
     }
 
@@ -234,26 +228,24 @@ import static com.websushibar.hprofpersist.utils.Utils.isOfClass;
     }
 
     @Override
-    public Collection<InstanceDump> instDumpsByClass(IDField classId) {
+    public Collection<InstanceDump> instDumps(IDField classId) {
         return filter(getInstanceDumpsById().values(), isOfClass(classId));
     }
 
-     @Override
-     public Collection<LoadClass> loadClassesMatchingName(String name) {
+    @Override
+    public Collection<LoadClass> loadClassesMatchingName(String name) {
+        HashSet<LoadClass> retVal = new HashSet<>();
 
-         HashSet<LoadClass> retVal = new HashSet<>();
-
-         for (LoadClass loadClass : classesById.values()) {
-
+        for (LoadClass loadClass : classesById.values()) {
              StringEntry stringEntry = getString(loadClass.getClassNameStringId());
 
              if (stringEntry.getContent().matches("^.*[./]" + name + "$")) {
                  retVal.add(loadClass);
              }
-         }
+        }
 
          return retVal;
-     }
+    }
 
 
      // TODO : StackFrames, Theads, ArrayDumps, and all other HasIds?
