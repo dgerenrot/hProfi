@@ -3,6 +3,8 @@ package com.websushibar.hprofpersist.persistence.mongo;
 import com.websushibar.hprofpersist.hprofentries.*;
 import com.websushibar.hprofpersist.hprofentries.dumpSubtags.ClassDump;
 import com.websushibar.hprofpersist.hprofentries.dumpSubtags.InstanceDump;
+import com.websushibar.hprofpersist.hprofentries.dumpSubtags.ObjectArrayDump;
+import com.websushibar.hprofpersist.hprofentries.dumpSubtags.PrimitiveArrayDump;
 import com.websushibar.hprofpersist.persistence.mongo.repos.*;
 import com.websushibar.hprofpersist.store.HPROFStore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,16 +103,6 @@ public class MongoStorage extends HPROFStore {
     }
 
     @Override
-    public <T extends HasId> T getObject(IDField objId) {
-        throw new RuntimeException("Not implemented!");
-    }
-
-    @Override
-    public <T extends HasId> T getObject(byte... bytes) {
-        throw new RuntimeException("Not implemented!");
-    }
-
-    @Override
     public HeapSummary getHeapSummary() {
         throw new RuntimeException("Not implemented!");
     }
@@ -135,6 +127,16 @@ public class MongoStorage extends HPROFStore {
 
     @Override
     public int getNumInstanceDumps() {
+        return 0;
+    }
+
+    @Override
+    public int getNumObjectArrayDumps() {
+        return 0;
+    }
+
+    @Override
+    public int getNumPrimitiveArrayDumps() {
         return 0;
     }
 
@@ -204,17 +206,42 @@ public class MongoStorage extends HPROFStore {
     }
 
     @Override
+    public ObjectArrayDump getObjectArrayDump(IDField id) {
+        return null;
+    }
+
+    @Override
+    public ObjectArrayDump getObjectArrayDump(long id) {
+        return null;
+    }
+
+    @Override
+    public ObjectArrayDump getObjectArrayDump(byte[] id) {
+        return null;
+    }
+
+    @Override
+    public PrimitiveArrayDump getPrimitiveArrayDump(IDField id) {
+        return null;
+    }
+
+    @Override
+    public PrimitiveArrayDump getPrimitiveArrayDump(long id) {
+        return null;
+    }
+
+    @Override
+    public PrimitiveArrayDump getPrimitiveArrayDump(byte[] id) {
+        return null;
+    }
+
+    @Override
     public Collection<InstanceDump> instDumps(IDField classId)  {
         throw new RuntimeException("Not implemented!");
     }
 
     @Override
     public Collection<LoadClass> loadClassesMatchingRE(String name)  {
-        throw new RuntimeException("Not implemented!");
-    }
-
-    @Override
-    protected <T extends HasId> T lookupById(IDField id) {
         throw new RuntimeException("Not implemented!");
     }
 

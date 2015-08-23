@@ -1,9 +1,7 @@
  package com.websushibar.hprofpersist.store;
 
 import com.websushibar.hprofpersist.hprofentries.*;
-import com.websushibar.hprofpersist.hprofentries.dumpSubtags.ClassDump;
-import com.websushibar.hprofpersist.hprofentries.dumpSubtags.DumpSubtagEntry;
-import com.websushibar.hprofpersist.hprofentries.dumpSubtags.InstanceDump;
+import com.websushibar.hprofpersist.hprofentries.dumpSubtags.*;
 import com.websushibar.hprofpersist.hprofentries.exceptions.HPROFFormatException;
 
 import java.util.*;
@@ -83,24 +81,6 @@ import static com.websushibar.hprofpersist.utils.Utils.isOfClass;
         }
     }
 
-    @Override
-    protected <T extends HasId> T lookupById(IDField id) {
-        for (Map<IDField, ? extends HasId> map : idRegisters.values()) {
-            if (map == classesById)
-                continue;
-            if (map.keySet().contains(id)) {
-                try {
-                    // And what if one of these types extends the other someday?
-                    return (T) map.get(id);
-                }catch (ClassCastException e) {
-                    continue;
-                }
-            }
-        }
-
-        return null;
-    }
-
     public void initDumpSubtags() {
         if (byTag.get(Tag.HEAP_DUMP) ==  null) {
             return;
@@ -164,6 +144,15 @@ import static com.websushibar.hprofpersist.utils.Utils.isOfClass;
     }
 
     @Override
+    public int getNumObjectArrayDumps() {
+     return getStorage(ObjectArrayDump.class).size();
+    }
+    @Override
+    public int getNumPrimitiveArrayDumps() {
+     return getStorage(PrimitiveArrayDump.class).size();
+    }
+
+     @Override
     public int getNumDumpsFor(Class<? extends HasId> clazz) { return getStorage(clazz).size(); }
 
     @Override
@@ -229,7 +218,36 @@ import static com.websushibar.hprofpersist.utils.Utils.isOfClass;
         return getInstanceDumpsById().get(id);
     }
 
-    @Override
+     @Override
+     public ObjectArrayDump getObjectArrayDump(IDField id) {
+         return (ObjectArrayDump)idRegisters.get(ObjectArrayDump.class).get(id);
+     }
+
+     @Override
+     public ObjectArrayDump getObjectArrayDump(long id) {
+         return (ObjectArrayDump)idRegisters.get(ObjectArrayDump.class).get(new IDField(id));
+     }
+
+     @Override
+     public ObjectArrayDump getObjectArrayDump(byte[] id) {
+         return (ObjectArrayDump)idRegisters.get(ObjectArrayDump.class).get(new IDField(id));
+     }
+
+     @Override
+     public PrimitiveArrayDump getPrimitiveArrayDump(IDField id) {
+         return (PrimitiveArrayDump)idRegisters.get(PrimitiveArrayDump.class).get(id);
+     }
+
+     @Override
+     public PrimitiveArrayDump getPrimitiveArrayDump(long id) {
+         return (PrimitiveArrayDump)idRegisters.get(PrimitiveArrayDump.class).get(new IDField(id));     }
+
+     @Override
+     public PrimitiveArrayDump getPrimitiveArrayDump(byte[] id) {
+         return (PrimitiveArrayDump)idRegisters.get(PrimitiveArrayDump.class).get(new IDField(id));
+     }
+
+     @Override
     public Collection<InstanceDump> instDumps(IDField classId) {
         return filter(getInstanceDumpsById().values(), isOfClass(classId));
     }

@@ -87,7 +87,7 @@ public class InstanceLayoutFactory {
 
             int currOffset = 0;
             for (InstanceField field : instanceFields) {
-                StringEntry fieldNameEntry = store.getObject(field.getNameStringId());
+                StringEntry fieldNameEntry = store.getString(field.getNameStringId());
 
                 currLayout.offsetByField.put(fieldNameEntry.getContent(), currOffset);
                 currOffset += field.getTypeOfEntry().getSize();

@@ -1,9 +1,7 @@
 package com.websushibar.hprofpersist.store;
 
 import com.websushibar.hprofpersist.hprofentries.*;
-import com.websushibar.hprofpersist.hprofentries.dumpSubtags.ClassDump;
-import com.websushibar.hprofpersist.hprofentries.dumpSubtags.DumpSubtag;
-import com.websushibar.hprofpersist.hprofentries.dumpSubtags.InstanceDump;
+import com.websushibar.hprofpersist.hprofentries.dumpSubtags.*;
 
 import java.util.Collection;
 import java.util.Map;
@@ -45,27 +43,6 @@ public abstract class HPROFStore {
 
     public abstract void addHPROFEntry(HPROFMainEntry entry);
 
-    // TODO
-    public  <T extends HasId>  T getObject(IDField objId) {
-
-        if (objId.equals(IDField.NULL_ID))
-            return null;
-
-        T retVal = lookupById(objId);
-
-        if (retVal == null) {
-            throw new IllegalArgumentException("Object Id " + objId +
-                    " has no object registered under it!");
-        }
-
-        return retVal;
-    }
-
-    // TODO
-    public <T extends HasId>  T  getObject(byte ... bytes) {
-        return getObject(new IDField(bytes));
-    }
-
     public HPROFHeaderInfo getHPROFHeaderInfo() {
         return headerInfo;
     }
@@ -86,6 +63,10 @@ public abstract class HPROFStore {
     public abstract int getNumClassDumps();
 
     public abstract int getNumInstanceDumps();
+
+    public abstract int getNumObjectArrayDumps();
+
+    public abstract int getNumPrimitiveArrayDumps();
 
     public abstract int getNumDumpsFor(Class<? extends HasId> clazz);
 
@@ -113,12 +94,21 @@ public abstract class HPROFStore {
 
     public abstract InstanceDump getInstanceDump(byte[] id);
 
+    public abstract ObjectArrayDump getObjectArrayDump(IDField id);
+
+    public abstract ObjectArrayDump getObjectArrayDump(long id);
+
+    public abstract ObjectArrayDump getObjectArrayDump(byte[] id);
+
+    public abstract PrimitiveArrayDump getPrimitiveArrayDump(IDField id);
+
+    public abstract PrimitiveArrayDump getPrimitiveArrayDump(long id);
+
+    public abstract PrimitiveArrayDump getPrimitiveArrayDump(byte[] id);
+
     public abstract Collection<InstanceDump> instDumps(IDField classId);
 
     public abstract Collection<LoadClass> loadClassesMatchingRE(String name);
-
-    // TODO
-    protected abstract <T extends HasId>  T lookupById(IDField id);
 
     public abstract <T extends HasId> Map<IDField, T> getStorage(Class<T> clazz);
 }
