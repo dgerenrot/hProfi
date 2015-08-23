@@ -26,6 +26,11 @@ public class ObjectArrayDump extends AbstractArrayDump {
          // TODO
     }
 
+    @Override
+    public Object get(int i) {
+        return arrayElements.get(i);
+    }
+
     public IDField getArrayClassObjId() {
         return arrayClassObjId;
     }

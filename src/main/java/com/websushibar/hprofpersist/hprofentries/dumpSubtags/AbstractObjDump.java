@@ -4,7 +4,7 @@ import com.websushibar.hprofpersist.loader.DataInputStreamWrapper;
 
 import java.io.IOException;
 
-public class AbstractObjDump extends DumpSubtagEntry {
+public abstract class AbstractObjDump extends DumpSubtagEntry {
 
     private int stackTraceSerialNo;
 

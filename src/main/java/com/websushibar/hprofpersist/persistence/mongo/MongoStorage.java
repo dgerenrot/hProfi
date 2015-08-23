@@ -139,6 +139,11 @@ public class MongoStorage extends HPROFStore {
     }
 
     @Override
+    public int getNumDumpsFor(Class<? extends HasId> clazz) {
+        return 0;
+    }
+
+    @Override
     public LoadClass getLoadClass(IDField id) {
         return null;
     }
@@ -204,13 +209,18 @@ public class MongoStorage extends HPROFStore {
     }
 
     @Override
-    public Collection<LoadClass> loadClassesMatchingName(String name)  {
+    public Collection<LoadClass> loadClassesMatchingRE(String name)  {
         throw new RuntimeException("Not implemented!");
     }
 
     @Override
     protected <T extends HasId> T lookupById(IDField id) {
         throw new RuntimeException("Not implemented!");
+    }
+
+    @Override
+    public <T extends HasId> Map<IDField, T> getStorage(Class<T> clazz) {
+        return null;
     }
 
 }

@@ -6,6 +6,7 @@ import com.websushibar.hprofpersist.hprofentries.dumpSubtags.DumpSubtag;
 import com.websushibar.hprofpersist.hprofentries.dumpSubtags.InstanceDump;
 
 import java.util.Collection;
+import java.util.Map;
 
 public abstract class HPROFStore {
 
@@ -86,6 +87,8 @@ public abstract class HPROFStore {
 
     public abstract int getNumInstanceDumps();
 
+    public abstract int getNumDumpsFor(Class<? extends HasId> clazz);
+
     public abstract LoadClass getLoadClass(IDField id);
 
     public abstract LoadClass getLoadClass(long id);
@@ -112,8 +115,10 @@ public abstract class HPROFStore {
 
     public abstract Collection<InstanceDump> instDumps(IDField classId);
 
-    public abstract Collection<LoadClass> loadClassesMatchingName(String name);
+    public abstract Collection<LoadClass> loadClassesMatchingRE(String name);
 
     // TODO
     protected abstract <T extends HasId>  T lookupById(IDField id);
+
+    public abstract <T extends HasId> Map<IDField, T> getStorage(Class<T> clazz);
 }

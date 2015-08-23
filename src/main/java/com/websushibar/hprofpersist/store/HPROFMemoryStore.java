@@ -163,6 +163,8 @@ import static com.websushibar.hprofpersist.utils.Utils.isOfClass;
         return getStorage(InstanceDump.class).size();
     }
 
+    @Override
+    public int getNumDumpsFor(Class<? extends HasId> clazz) { return getStorage(clazz).size(); }
 
     @Override
     public LoadClass getLoadClass(IDField id) {
@@ -233,13 +235,13 @@ import static com.websushibar.hprofpersist.utils.Utils.isOfClass;
     }
 
     @Override
-    public Collection<LoadClass> loadClassesMatchingName(String name) {
+    public Collection<LoadClass> loadClassesMatchingRE(String regExp) {
         HashSet<LoadClass> retVal = new HashSet<>();
 
         for (LoadClass loadClass : classesById.values()) {
              StringEntry stringEntry = getString(loadClass.getClassNameStringId());
 
-             if (stringEntry.getContent().matches("^.*[./]" + name + "$")) {
+             if (stringEntry.getContent().matches(regExp)) {
                  retVal.add(loadClass);
              }
         }
@@ -274,6 +276,8 @@ import static com.websushibar.hprofpersist.utils.Utils.isOfClass;
         return getStorage(ClassDump.class);
     }
 
+
+    @Override
     public <T extends HasId> Map<IDField, T> getStorage(Class<T> clazz) {
         return (Map) idRegisters.get(clazz);
     }

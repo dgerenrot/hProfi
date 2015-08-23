@@ -3,7 +3,9 @@ package com.websushibar.hprofpersist.runhproftests;
 import com.websushibar.hprofpersist.hprofentries.IDField;
 import com.websushibar.hprofpersist.hprofentries.LoadClass;
 import com.websushibar.hprofpersist.hprofentries.StringEntry;
+import com.websushibar.hprofpersist.hprofentries.dumpSubtags.AbstractArrayDump;
 import com.websushibar.hprofpersist.hprofentries.dumpSubtags.InstanceDump;
+import com.websushibar.hprofpersist.hprofentries.dumpSubtags.PrimitiveArrayDump;
 import com.websushibar.hprofpersist.hprofentries.layout.InstanceLayout;
 import com.websushibar.hprofpersist.hprofentries.layout.InstanceLayoutFactory;
 import com.websushibar.hprofpersist.loader.HPROFInStreamLoader;
@@ -79,12 +81,12 @@ public class ClassARefAndClassATest {
         IDField classUnderTestId = null;
         IDField referringClassId = null;
 
-        Collection<LoadClass> collRefClass = store.loadClassesMatchingName("ClassAReference");
+        Collection<LoadClass> collRefClass = store.loadClassesMatchingRE("^.*ClassAReference.*$");
 
         assertEquals(1, collRefClass.size());
         referringClassId = collRefClass.iterator().next().getId();
 
-        Collection<LoadClass> collClassA = store.loadClassesMatchingName(CLASS_A_NAME);
+        Collection<LoadClass> collClassA = store.loadClassesMatchingRE("^.*" + CLASS_A_NAME + ".*$");
 
         for (LoadClass lc : collClassA) {
             StringEntry className = store.getString(lc.getClassNameStringId());
@@ -138,7 +140,7 @@ public class ClassARefAndClassATest {
     private void shouldContainStringClassId(String fileName) throws IOException {
         HPROFStore store = loadMemStore(fileName);
 
-        Collection<LoadClass> coll = store.loadClassesMatchingName("lang.String");
+        Collection<LoadClass> coll = store.loadClassesMatchingRE("^java.lang.String$");
 
         assertEquals(1, coll.size());
 
@@ -151,7 +153,7 @@ public class ClassARefAndClassATest {
     public void shouldFindSubtag() throws IOException {
         HPROFStore store = loadMemStore(CLASS_A_REF_VIS_VM_4);
 
-        InstanceLayoutFactory factory = getLayoutFactory(store, CLASS_A_NAME);
+        InstanceLayoutFactory factory = getLayoutFactory(store, "^.*" + CLASS_A_NAME + ".*$");
 
         InstanceLayout classALayout = factory.buildInstanceLayout();
 
@@ -164,6 +166,19 @@ public class ClassARefAndClassATest {
         InstanceDump instDump = instanceDumps.iterator().next();
 
         IDField stringFieldId = classALayout.getObjIdField(instDump, "stringField");
+
+        InstanceDump stringFieldDump = store.getInstanceDump(stringFieldId);
+
+        InstanceLayoutFactory stringInstanceLayoutFactory = getLayoutFactory(store, "^java.lang.String$");
+        InstanceLayout stringLO = stringInstanceLayoutFactory.buildInstanceLayout();
+        IDField stringValId = stringLO.getObjIdField(stringFieldDump, "value");
+
+        InstanceDump stringValInstDump =  store.getInstanceDump(stringValId);
+        AbstractArrayDump stringValArrDump =  store.getStorage(PrimitiveArrayDump.class).get(stringValId);
+
+
+
+
 
         // Strings are laid out using reference to primitive arrays of characters
         // InstanceDump stringDump = store.getInstanceDump(stringFieldId);
@@ -179,14 +194,14 @@ public class ClassARefAndClassATest {
         assertEquals(42, intValue);
     }
 
-    private  InstanceLayoutFactory getLayoutFactory(HPROFStore store, String simpleClassName) {
+    private  InstanceLayoutFactory getLayoutFactory(HPROFStore store, String regExp) {
 
-        Collection<LoadClass> lcs = store.loadClassesMatchingName(simpleClassName);
+        Collection<LoadClass> lcs = store.loadClassesMatchingRE(regExp);
         if (!lcs.isEmpty()) {
             return new InstanceLayoutFactory(store, lcs.iterator().next());
         }
 
-        throw new IllegalStateException("Could not find an instance of class undfer test " + simpleClassName);
+        throw new IllegalStateException("Could not find an instance of class undfer test " + regExp);
     }
 
 

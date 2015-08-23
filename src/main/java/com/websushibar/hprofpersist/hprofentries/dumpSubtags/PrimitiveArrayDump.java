@@ -30,4 +30,8 @@ public class PrimitiveArrayDump extends AbstractArrayDump {
     public BasicTypeTag getTypeTag() {
         return typeTag;
     }
+
+    public Object get(int i) {
+        return values[i];
+    }
 }

@@ -4,7 +4,7 @@ import com.websushibar.hprofpersist.loader.DataInputStreamWrapper;
 
 import java.io.IOException;
 
-public class AbstractArrayDump extends AbstractObjDump {
+public abstract class AbstractArrayDump extends AbstractObjDump {
 
     private int nElementsSigned;
 
@@ -18,4 +18,6 @@ public class AbstractArrayDump extends AbstractObjDump {
     public int getnElementsSigned() {
         return nElementsSigned;
     }
+
+    public abstract Object get(int i);
 }
