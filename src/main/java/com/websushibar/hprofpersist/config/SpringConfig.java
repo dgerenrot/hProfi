@@ -4,23 +4,23 @@ package com.websushibar.hprofpersist.config;
 import com.mongodb.MongoClient;
 import com.websushibar.hprofpersist.MainClass;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import java.net.UnknownHostException;
 
 
-
-@EnableMongoRepositories("com.websushibar.hprofpersist")
-@Configuration
+//@Configuration
+//@EnableMongoRepositories("com.websushibar.hprofpersist")
 public class SpringConfig {
 
-    public static String HOST = "localhost";
+    public static final String HOST = "localhost";
 
-    public static String HPROFI_INST_DB = "hProfiInstance";
+    public static final String HPROFI_INST_DB = "hProfiInstance";
+
+    private MongoDbFactory dbFactory;
+    private MongoTemplate template;
 
 //
 //    @Bean
@@ -31,8 +31,12 @@ public class SpringConfig {
 
     @Bean
     public MongoDbFactory mongoDbFactory() throws UnknownHostException {
-        return new SimpleMongoDbFactory(new MongoClient(
-                HOST), HPROFI_INST_DB);
+        if (dbFactory == null) {
+            dbFactory =  new SimpleMongoDbFactory(new MongoClient(
+                    HOST), HPROFI_INST_DB);
+        }
+
+        return dbFactory;
     }
 
     @Bean

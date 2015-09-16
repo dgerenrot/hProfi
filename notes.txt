@@ -19,6 +19,9 @@ GENERAL
 
 TODO
 
+    - IDFieldConverters : IDFieldLongReadConverter, IDFieldIntWriteCOnverter, etc.
+      Can we register them dynamically? (l8r, first just Longs)
+
     - Consider making HPROF store an abstract class (Interface, after all?)
       Some methods in HPROFMemStore should have a prototype in the interface.
       (getClassDumps(), etc). That interface needs to more closely mimic

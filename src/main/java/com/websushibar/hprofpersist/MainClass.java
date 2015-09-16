@@ -37,6 +37,12 @@ public class MainClass {
         context.refresh();
 
         MainClass test = context.getBean(MainClass.class);
+
+//        DummyConverter dc = context.getBean(DummyConverter.class);
+//        MappingMongoConverter mmc = context.getBean(MappingMongoConverter.class);
+//        dc.setMappingMongoConverter(mmc);
+
+
         test.doMain(args);
     }
 

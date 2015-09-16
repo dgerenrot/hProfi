@@ -40,7 +40,6 @@ public class DataInputStreamWrapper extends PushbackInputStream  {
 
     @Override
     public void unread(byte[] b) throws IOException {
-
         super.unread(b);
         bytesRead = (bytesRead > 0 ? bytesRead - b.length : 0);
     }

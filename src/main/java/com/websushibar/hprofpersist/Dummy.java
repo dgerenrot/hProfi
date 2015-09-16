@@ -2,6 +2,7 @@ package com.websushibar.hprofpersist;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "tryMongoDb")
 public class Dummy {
@@ -22,4 +23,7 @@ public class Dummy {
     public Integer getAge() {
         return age;
     }
+
+    @Field("just_label")
+    public String getLabel() { return "LabeledAt " + System.currentTimeMillis(); }
 }
