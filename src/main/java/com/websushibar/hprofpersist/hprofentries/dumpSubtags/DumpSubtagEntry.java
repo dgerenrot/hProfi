@@ -5,16 +5,22 @@ import com.websushibar.hprofpersist.hprofentries.HPROFEntity;
 import com.websushibar.hprofpersist.hprofentries.HasId;
 import com.websushibar.hprofpersist.hprofentries.IDField;
 import com.websushibar.hprofpersist.loader.DataInputStreamWrapper;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.IOException;
 
 public abstract class DumpSubtagEntry extends HPROFEntity
         implements HasId {
 
+    @Id // TODO : not what we want!
+    @Field("id")
     private IDField objId;
 
     protected long startsAtByte;
 
+    @Transient
     protected AbstractHeapDumpEntity parent;
 
     public IDField getObjId() {

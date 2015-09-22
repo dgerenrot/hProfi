@@ -5,7 +5,7 @@ import com.websushibar.hprofpersist.hprofentries.HPROFMainEntry;
 import com.websushibar.hprofpersist.hprofentries.IDField;
 import com.websushibar.hprofpersist.hprofentries.Tag;
 import com.websushibar.hprofpersist.hprofentries.exceptions.HPROFFormatException;
-import com.websushibar.hprofpersist.store.HPROFMemoryStore;
+import com.websushibar.hprofpersist.store.HPROFStore;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class HPROFInStreamLoader {
      * @param store
      * @throws IOException
      */
-    public void loadInto(HPROFMemoryStore store) throws IOException {
+    public void loadInto(HPROFStore store) throws IOException {
 
         try {
             try {

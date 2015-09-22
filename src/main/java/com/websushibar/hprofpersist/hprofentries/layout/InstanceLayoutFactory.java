@@ -87,6 +87,7 @@ public class InstanceLayoutFactory {
 
             int currOffset = 0;
             for (InstanceField field : instanceFields) {
+                // TODO : what if string not in StringEntries? Seen this w/class names
                 StringEntry fieldNameEntry = store.getString(field.getNameStringId());
 
                 currLayout.offsetByField.put(fieldNameEntry.getContent(), currOffset);

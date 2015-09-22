@@ -4,7 +4,6 @@ import com.websushibar.hprofpersist.hprofentries.*;
 import com.websushibar.hprofpersist.hprofentries.dumpSubtags.*;
 
 import java.util.Collection;
-import java.util.Map;
 
 public abstract class HPROFStore {
 
@@ -110,5 +109,5 @@ public abstract class HPROFStore {
 
     public abstract Collection<LoadClass> loadClassesMatchingRE(String name);
 
-    public abstract <T extends HasId> Map<IDField, T> getStorage(Class<T> clazz);
+    // public abstract <T extends HasId> Map<IDField, T> getStorage(Class<T> clazz);
 }

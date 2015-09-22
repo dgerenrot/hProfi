@@ -31,7 +31,7 @@ public class InstanceDump  extends AbstractObjDump {
     public void readBody(DataInputStreamWrapper l) throws IOException {
         super.readBody(l);
 
-            classObjId = l.readId();
+        classObjId = l.readId();
         nBytesSigned = l.readInt();
         values = new byte[nBytesSigned];
 

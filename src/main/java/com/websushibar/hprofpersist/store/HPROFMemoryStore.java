@@ -81,6 +81,11 @@ import static com.websushibar.hprofpersist.utils.Utils.isOfClass;
         }
     }
 
+
+     /**
+      *
+      * We need to call this after the store has been loaded.
+      */
     public void initDumpSubtags() {
         if (byTag.get(Tag.HEAP_DUMP) ==  null) {
             return;
@@ -147,6 +152,7 @@ import static com.websushibar.hprofpersist.utils.Utils.isOfClass;
     public int getNumObjectArrayDumps() {
      return getStorage(ObjectArrayDump.class).size();
     }
+
     @Override
     public int getNumPrimitiveArrayDumps() {
      return getStorage(PrimitiveArrayDump.class).size();
@@ -294,8 +300,6 @@ import static com.websushibar.hprofpersist.utils.Utils.isOfClass;
         return getStorage(ClassDump.class);
     }
 
-
-    @Override
     public <T extends HasId> Map<IDField, T> getStorage(Class<T> clazz) {
         return (Map) idRegisters.get(clazz);
     }

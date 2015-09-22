@@ -1,5 +1,6 @@
 package com.websushibar.hprofpersist;
 
+import com.websushibar.hprofpersist.persistence.mongo.repos.ClassDumpRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,9 @@ public class MainClass {
     @Autowired
     public DummyRepo dummyRepo;
 
+    @Autowired
+    public ClassDumpRepo classDumpRepo;
+
     public static void main(String[] args)
             throws IOException {
 
@@ -43,7 +47,7 @@ public class MainClass {
 //        dc.setMappingMongoConverter(mmc);
 
 
-        test.doMain(args);
+         test.doMain(args);
     }
 
 

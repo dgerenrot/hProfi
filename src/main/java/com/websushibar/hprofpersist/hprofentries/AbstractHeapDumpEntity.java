@@ -4,6 +4,7 @@ import com.websushibar.hprofpersist.hprofentries.dumpSubtags.DumpSubtag;
 import com.websushibar.hprofpersist.hprofentries.dumpSubtags.DumpSubtagEntry;
 import com.websushibar.hprofpersist.hprofentries.exceptions.HPROFFormatException;
 import com.websushibar.hprofpersist.loader.DataInputStreamWrapper;
+import org.springframework.data.annotation.Transient;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -12,6 +13,9 @@ import java.util.LinkedList;
 
 public abstract class AbstractHeapDumpEntity extends HPROFMainEntry {
 
+    // We want to explicitly insert these into separate table
+    // TODO: pointing back to parent?
+    @Transient
     private Collection<DumpSubtagEntry> subtagEntries = new LinkedList<>();
 
     @Override

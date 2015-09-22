@@ -199,6 +199,8 @@ public class  ClassDump  extends AbstractObjDump {
         private Boolean boolValue;
         private IDField idValue;
 
+        public ClassDumpEntry() {}
+
         public ClassDumpEntry(byte typeOfEntry, Number value) {
             this.typeOfEntry = getByValue(typeOfEntry);
             this.value = value;
@@ -244,6 +246,10 @@ public class  ClassDump  extends AbstractObjDump {
 
         private short constPoolIndex;
 
+        public Constant() {
+            super();
+        }
+
         public Constant(short constPoolIndex, byte typeOfEntry, Number value) {
             super(typeOfEntry, value);
             this.constPoolIndex = constPoolIndex;
@@ -266,6 +272,8 @@ public class  ClassDump  extends AbstractObjDump {
 
     public static class StaticField extends ClassDumpEntry{
         private IDField nameStringId;
+
+        public StaticField() { super(); }
 
         public StaticField(IDField nameStringId, byte typeOfEntry, Number value) {
             super(typeOfEntry, value);
@@ -292,6 +300,13 @@ public class  ClassDump  extends AbstractObjDump {
 
     public static class InstanceField extends ClassDumpEntry{
         private IDField nameStringId;
+
+        public InstanceField() { super(); }
+
+        public InstanceField(IDField nameStringId, BasicTypeTag typeTag) {
+            this(nameStringId, typeTag.getCode());
+        }
+
 
         public InstanceField(IDField nameStringId, byte typeOfEntry) {
             super(typeOfEntry, (Number) null);

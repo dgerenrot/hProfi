@@ -1,20 +1,19 @@
 package com.websushibar.hprofpersist.persistence.mongo;
 
 import com.websushibar.hprofpersist.hprofentries.*;
-import com.websushibar.hprofpersist.hprofentries.dumpSubtags.ClassDump;
-import com.websushibar.hprofpersist.hprofentries.dumpSubtags.InstanceDump;
-import com.websushibar.hprofpersist.hprofentries.dumpSubtags.ObjectArrayDump;
-import com.websushibar.hprofpersist.hprofentries.dumpSubtags.PrimitiveArrayDump;
+import com.websushibar.hprofpersist.hprofentries.dumpSubtags.*;
 import com.websushibar.hprofpersist.persistence.mongo.repos.*;
 import com.websushibar.hprofpersist.store.HPROFStore;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
+
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
 
 
 /**
@@ -22,17 +21,26 @@ import java.util.Map;
  */
 
 @Component
-public class MongoStorage extends HPROFStore {
+public class MongoStorage extends HPROFStore implements InitializingBean{
 
     private Map<Class<? extends HasId>,
                 CrudRepository<? extends HasId, IDField>> idRegisters
             = new HashMap<>();
 
     @Autowired
+    MongoTemplate mongoTemplate;
+
+    @Autowired
     ClassDumpRepo classDumpRepo;
 
     @Autowired
     InstanceDumpRepo instanceDumpRepo;
+
+    @Autowired
+    ObjectArrayDumpRepo objArrDumpRepo;
+
+    @Autowired
+    PrimitiveArrayDumpRepo primArrDumpRepo;
 
     @Autowired
     LoadClassRepo loadClassRepo;
@@ -52,12 +60,16 @@ public class MongoStorage extends HPROFStore {
         loadClassRepo.deleteAll();
         stringEntryRepo.deleteAll();
         headerRepo.deleteAll();
+        objArrDumpRepo.deleteAll();
+        primArrDumpRepo.deleteAll();
     }
 
     @Override
     protected void initDumpSubtagIdRegisters() {
         idRegisters.put(ClassDump.class, classDumpRepo);
         idRegisters.put(InstanceDump.class, instanceDumpRepo);
+        idRegisters.put(ObjectArrayDump.class, objArrDumpRepo);
+        idRegisters.put(PrimitiveArrayDump.class, primArrDumpRepo);
     }
 
     // TODO : implement!
@@ -72,17 +84,23 @@ public class MongoStorage extends HPROFStore {
 
         // TODO : all these assumptions of only one repo in the dump!
         headerRepo.deleteAll();
-        headerRepo.save(headerInfo);
+        // headerRepo.save(headerInfo); // TODO : not yet
     }
 
     @Override
     public void addHPROFEntry(HPROFMainEntry entry) {
 
-        if (entry instanceof LoadClass) {
-            loadClassRepo.save((LoadClass) entry);
+        if (idRegisters.get(entry.getClass()) != null) {
+            ((CrudRepository)idRegisters.get(entry.getClass())).save(entry);
+        }
 
-        } else if (entry instanceof StringEntry) {
-            stringEntryRepo.save((StringEntry) entry);
+        if (entry instanceof AbstractHeapDumpEntity) {
+            AbstractHeapDumpEntity entity = (AbstractHeapDumpEntity) entry;
+            for (DumpSubtagEntry e : entity.getSubtagEntries()) {
+                if (idRegisters.get(e.getClass()) != null) {
+                    ((CrudRepository)idRegisters.get(e.getClass())).save(e);
+                }
+            }
         }
     }
 
@@ -112,142 +130,163 @@ public class MongoStorage extends HPROFStore {
 
     @Override
     public int getNumLoadClasses() {
-        return 0;
+        return getNumDumpsFor(LoadClass.class);
     }
 
     @Override
     public int getNumStringEntries() {
-        return 0;
+        return getNumDumpsFor(StringEntry.class);
     }
 
     @Override
     public int getNumClassDumps() {
-        return 0;
+        return getNumDumpsFor(ClassDump.class);
     }
 
     @Override
     public int getNumInstanceDumps() {
-        return 0;
+        return getNumDumpsFor(InstanceDump.class);
     }
 
     @Override
     public int getNumObjectArrayDumps() {
-        return 0;
+        return getNumDumpsFor(ObjectArrayDump.class);
     }
 
     @Override
     public int getNumPrimitiveArrayDumps() {
-        return 0;
+        return getNumDumpsFor(PrimitiveArrayDump.class);
     }
 
     @Override
     public int getNumDumpsFor(Class<? extends HasId> clazz) {
-        return 0;
+        CrudRepository<?, ?> repo = idRegisters.get(clazz);
+
+        return (int) (repo != null ? repo.count() : 0);
     }
 
     @Override
     public LoadClass getLoadClass(IDField id) {
-        return null;
+        return loadClassRepo.findOne(id);
     }
 
     @Override
     public LoadClass getLoadClass(long id) {
-        return null;
+        return loadClassRepo.findOne(new IDField(id));
     }
 
     @Override
     public LoadClass getLoadClass(byte[] id) {
-        return null;
+        return loadClassRepo.findOne(new IDField(id));
     }
 
     @Override
-    public StringEntry getString(IDField id) {
-        return null;
+    public StringEntry getString(IDField id)   {
+        return stringEntryRepo.findOne(id);
     }
 
     @Override
     public StringEntry getString(long id) {
-        return null;
+        return stringEntryRepo.findOne(new IDField(id));
     }
 
     @Override
     public StringEntry getString(byte[] id) {
-        return null;
+        return stringEntryRepo.findOne(new IDField(id));
     }
 
     @Override
-    public ClassDump getClassDump(IDField id) {
-        return null;
+    public ClassDump getClassDump(IDField id)   {
+        return classDumpRepo.findOne(id);
     }
 
     @Override
     public ClassDump getClassDump(long id) {
-        return null;
+        return classDumpRepo.findOne(new IDField(id));
     }
 
     @Override
     public ClassDump getClassDump(byte[] id) {
-        return null;
+        return classDumpRepo.findOne(new IDField(id));
     }
 
     @Override
-    public InstanceDump getInstanceDump(IDField id) {
-        return null;
+    public InstanceDump getInstanceDump(IDField id)   {
+        return instanceDumpRepo.findOne(id);
     }
 
     @Override
     public InstanceDump getInstanceDump(long id) {
-        return null;
+        return instanceDumpRepo.findOne(new IDField(id));
     }
 
     @Override
     public InstanceDump getInstanceDump(byte[] id) {
-        return null;
+        return instanceDumpRepo.findOne(new IDField(id));
     }
 
     @Override
     public ObjectArrayDump getObjectArrayDump(IDField id) {
-        return null;
+        return objArrDumpRepo.findOne(id);
     }
 
     @Override
     public ObjectArrayDump getObjectArrayDump(long id) {
-        return null;
+        return objArrDumpRepo.findOne(new IDField(id));
     }
 
     @Override
     public ObjectArrayDump getObjectArrayDump(byte[] id) {
-        return null;
+        return objArrDumpRepo.findOne(new IDField(id));
     }
 
     @Override
-    public PrimitiveArrayDump getPrimitiveArrayDump(IDField id) {
-        return null;
+    public PrimitiveArrayDump getPrimitiveArrayDump(IDField id)  {
+        return primArrDumpRepo.findOne(id);
     }
 
     @Override
     public PrimitiveArrayDump getPrimitiveArrayDump(long id) {
-        return null;
+        return primArrDumpRepo.findOne(new IDField(id));
     }
 
     @Override
     public PrimitiveArrayDump getPrimitiveArrayDump(byte[] id) {
-        return null;
+        return primArrDumpRepo.findOne(new IDField(id));
     }
 
     @Override
     public Collection<InstanceDump> instDumps(IDField classId)  {
-        throw new RuntimeException("Not implemented!");
+        List<InstanceDump> retVal = mongoTemplate.find(query(where("classObjId").is(classId.getNumeric())),
+                                                        InstanceDump.class);
+        return retVal;
     }
 
     @Override
     public Collection<LoadClass> loadClassesMatchingRE(String name)  {
-        throw new RuntimeException("Not implemented!");
+        HashSet<LoadClass> retVal = new HashSet<>();
+
+        for (LoadClass loadClass : loadClassRepo.findAll()) {
+            StringEntry stringEntry = getString(loadClass.getClassNameStringId());
+
+            if (stringEntry.getContent().matches(name)) {
+                retVal.add(loadClass);
+            }
+        }
+
+        return retVal;
+
+    }
+
+    public <T extends HasId> CrudRepository<T, IDField> getRepoFor(Class<T> clazz) {
+        return (CrudRepository<T, IDField>)idRegisters.get(clazz);
     }
 
     @Override
-    public <T extends HasId> Map<IDField, T> getStorage(Class<T> clazz) {
-        return null;
-    }
+    public void afterPropertiesSet() throws Exception {
+        idRegisters.put(StringEntry.class, stringEntryRepo);
+        idRegisters.put(LoadClass.class, loadClassRepo);
+        initDumpSubtagIdRegisters();
 
+    }
 }

@@ -3,16 +3,17 @@ package com.websushibar.hprofpersist.runhproftests;
 import com.websushibar.hprofpersist.hprofentries.IDField;
 import com.websushibar.hprofpersist.hprofentries.LoadClass;
 import com.websushibar.hprofpersist.hprofentries.StringEntry;
-import com.websushibar.hprofpersist.hprofentries.dumpSubtags.AbstractArrayDump;
 import com.websushibar.hprofpersist.hprofentries.dumpSubtags.InstanceDump;
 import com.websushibar.hprofpersist.hprofentries.dumpSubtags.PrimitiveArrayDump;
 import com.websushibar.hprofpersist.hprofentries.layout.InstanceLayout;
 import com.websushibar.hprofpersist.hprofentries.layout.InstanceLayoutFactory;
 import com.websushibar.hprofpersist.loader.HPROFInStreamLoader;
+import com.websushibar.hprofpersist.persistence.mongo.MongoStorage;
 import com.websushibar.hprofpersist.store.HPROFMemoryStore;
 import com.websushibar.hprofpersist.store.HPROFStore;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.*;
 import java.util.Collection;
@@ -47,7 +48,7 @@ public class ClassARefAndClassATest {
     public static final String CLASS_A_NAME = "ClassAIntAndStr";
 
     File hprofUnderTest;
-
+    HPROFStore store;
 
 //    @Test
 //    public void shouldFindStringMyObjStringInARR_AND_LIST() throws IOException {
@@ -67,16 +68,22 @@ public class ClassARefAndClassATest {
 
 //    @Test
 //    public void ObjOfClassARefShouldHaveRefToClassA_Agtlib_0() throws IOException {
+//    store = loadMemStore(CLASS_A_REF_AGENTLIB_0);
 //        ObjOfClassARefShouldHaveRefToClassA(CLASS_A_REF_AGENTLIB_0);
 //    }
 
     @Test
-    public void ObjOfClassARefShouldHaveRefToClassA_VisVM_4() throws IOException {
+    public void ObjOfClassARefShouldHaveRefToClassA_Mem_VisVM_4() throws IOException {
+        store = loadMemStore(CLASS_A_REF_VIS_VM_4);
         ObjOfClassARefShouldHaveRefToClassA(CLASS_A_REF_VIS_VM_4);
     }
-
+    @Test
+    public void ObjOfClassARefShouldHaveRefToClassA_Mongo_VisVM_4() throws IOException {
+        store = loadMongoStore(CLASS_A_REF_VIS_VM_4);
+        ObjOfClassARefShouldHaveRefToClassA(CLASS_A_REF_VIS_VM_4);
+        ((MongoStorage)store).reset();
+    }
     private void ObjOfClassARefShouldHaveRefToClassA(String fileName) throws IOException {
-        HPROFStore store = loadMemStore(fileName);
 
         IDField classUnderTestId = null;
         IDField referringClassId = null;
@@ -113,32 +120,60 @@ public class ClassARefAndClassATest {
     }
 
     @Test
-    public void classDumpsAndLoadClassIdsHaveSameSize_Agtlib_0() throws IOException {
+    public void classDumpsAndLoadClassIdsHaveSameSize_Mem_Agtlib_0() throws IOException {
+        store = loadMemStore(CLASS_A_REF_AGENTLIB_0);
         classDumpsAndLoadClassIdsHaveSameSize(CLASS_A_REF_AGENTLIB_0);
+    }
+    @Test
+    public void classDumpsAndLoadClassIdsHaveSameSize_Mongo_Agtlib_0() throws IOException {
+        store = loadMongoStore(CLASS_A_REF_AGENTLIB_0);
+        classDumpsAndLoadClassIdsHaveSameSize(CLASS_A_REF_AGENTLIB_0);
+        ((MongoStorage)store).reset();
     }
 
     @Test
-    public void classDumpsAndLoadClassIdsHaveSameSize_VisVM_4() throws IOException {
+    public void classDumpsAndLoadClassIdsHaveSameSize_Mem_VisVM_4() throws IOException {
+        store = loadMemStore(CLASS_A_REF_AGENTLIB_0);
         classDumpsAndLoadClassIdsHaveSameSize(CLASS_A_REF_VIS_VM_4);
+    }
+    @Test
+    public void classDumpsAndLoadClassIdsHaveSameSize_Mongo_VisVM_4() throws IOException {
+        store = loadMongoStore(CLASS_A_REF_AGENTLIB_0);
+        classDumpsAndLoadClassIdsHaveSameSize(CLASS_A_REF_VIS_VM_4);
+        ((MongoStorage)store).reset();
     }
 
     private void classDumpsAndLoadClassIdsHaveSameSize(String fileName) throws IOException {
-        HPROFStore store = loadMemStore(fileName);
         assertEquals(store.getNumClassDumps(), store.getNumLoadClasses());
     }
 
     @Test
-    public void shouldContainStringClassId_Agtlib_0() throws IOException {
+    public void shouldContainStringClassId_Mem_Agtlib_0() throws IOException {
+        store = loadMemStore(CLASS_A_REF_AGENTLIB_0);
         shouldContainStringClassId(CLASS_A_REF_AGENTLIB_0);
     }
 
     @Test
-    public void shouldContainStringClassId_VisVM_4() throws IOException {
+    public void shouldContainStringClassId_Mongo_Agtlib_0() throws IOException {
+        store = loadMongoStore(CLASS_A_REF_AGENTLIB_0);
+        shouldContainStringClassId(CLASS_A_REF_AGENTLIB_0);
+        ((MongoStorage)store).reset();
+    }
+
+    @Test
+    public void shouldContainStringClassId_Mem_VisVM_4() throws IOException {
+        store = loadMemStore(CLASS_A_REF_AGENTLIB_0);
         shouldContainStringClassId(CLASS_A_REF_VIS_VM_4);
     }
 
+    @Test
+    public void shouldContainStringClassId_Mongo_VisVM_4() throws IOException {
+        store = loadMongoStore(CLASS_A_REF_AGENTLIB_0);
+        shouldContainStringClassId(CLASS_A_REF_VIS_VM_4);
+        ((MongoStorage)store).reset();
+    }
+
     private void shouldContainStringClassId(String fileName) throws IOException {
-        HPROFStore store = loadMemStore(fileName);
 
         Collection<LoadClass> coll = store.loadClassesMatchingRE("^java.lang.String$");
 
@@ -150,9 +185,19 @@ public class ClassARefAndClassATest {
     }
 
     @Test
-    public void shouldFindSubtag() throws IOException {
-        HPROFStore store = loadMemStore(CLASS_A_REF_VIS_VM_4);
+    public void shouldFindSubtag_Mem_VisVM_4() throws IOException {
+        store = loadMemStore(CLASS_A_REF_VIS_VM_4);
+        shouldFindSubtag();
+    }
 
+    @Test
+    public void shouldFindSubtag_Mongo_VisVM_4() throws IOException {
+        store = loadMongoStore(CLASS_A_REF_VIS_VM_4);
+        shouldFindSubtag();
+        ((MongoStorage)store).reset();
+    }
+
+    private void shouldFindSubtag() {
         InstanceLayoutFactory factory = getLayoutFactory(store, "^.*" + CLASS_A_NAME + ".*$");
 
         InstanceLayout classALayout = factory.buildInstanceLayout();
@@ -173,12 +218,15 @@ public class ClassARefAndClassATest {
         InstanceLayout stringLO = stringInstanceLayoutFactory.buildInstanceLayout();
         IDField stringValId = stringLO.getObjIdField(stringFieldDump, "value");
 
+        //TODO : actual string value retrieval
         InstanceDump stringValInstDump =  store.getInstanceDump(stringValId);
-        AbstractArrayDump stringValArrDump =  store.getStorage(PrimitiveArrayDump.class).get(stringValId);
+        PrimitiveArrayDump stringValArrDump =  store.getPrimitiveArrayDump(stringValId);
+        StringEntry stringEntryDump =  store.getString(stringValId);
+        assertTrue(stringValInstDump != null
+                    || stringEntryDump != null
+                    || stringValArrDump != null);
 
-
-
-
+        // AbstractArrayDump stringValArrDump =  store.getStorage(PrimitiveArrayDump.class).get(stringValId);
 
         // Strings are laid out using reference to primitive arrays of characters
         // InstanceDump stringDump = store.getInstanceDump(stringFieldId);
@@ -192,6 +240,7 @@ public class ClassARefAndClassATest {
         //                                                 .toString();
 
         assertEquals(42, intValue);
+
     }
 
     private  InstanceLayoutFactory getLayoutFactory(HPROFStore store, String regExp) {
@@ -225,13 +274,30 @@ public class ClassARefAndClassATest {
         return hprofs[0];
     }
 
-    private static HPROFStore loadMemStore(String fileName) throws IOException {
+    private HPROFStore loadMemStore(String fileName) throws IOException {
         File hprofUnderTest =  loadHprofForTest(fileName);
         HPROFInStreamLoader loader = new HPROFInStreamLoader(
                 new FileInputStream(hprofUnderTest));
+
         HPROFMemoryStore store = new HPROFMemoryStore();
         loader.loadInto(store);
         store.initDumpSubtags();
+        return store;
+    }
+
+    private HPROFStore loadMongoStore(String fileName) throws IOException {
+        File hprofUnderTest =  loadHprofForTest(fileName);
+        HPROFInStreamLoader loader = new HPROFInStreamLoader(
+                new FileInputStream(hprofUnderTest));
+
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        context.scan("com.websushibar.hprofpersist");
+        context.refresh();
+
+        store = context.getBean(MongoStorage.class);
+
+        loader.loadInto(store);
+
         return store;
     }
 }

@@ -1,8 +1,11 @@
 package com.websushibar.hprofpersist.config;
 
 import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
 import com.websushibar.hprofpersist.DummyConverter;
 import com.websushibar.hprofpersist.MainClass;
+import com.websushibar.hprofpersist.persistence.mongo.converters.IDReadLongConverter;
+import com.websushibar.hprofpersist.persistence.mongo.converters.IDWriteLongConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -33,7 +36,7 @@ public class MongoConfig extends AbstractMongoConfiguration {
 
     @Override
     public Mongo mongo() throws Exception {
-        return new Mongo(HOST);
+        return new MongoClient(HOST);
     }
 
     @Override
@@ -47,8 +50,13 @@ public class MongoConfig extends AbstractMongoConfiguration {
     public CustomConversions customConversions() {
 
         if (converterList.size() == 0) {
-            dummyConverterObj = new DummyConverter();
-            converterList.add(dummyConverterObj);
+            if (dummyConverterObj == null) {
+                dummyConverterObj = new DummyConverter();
+            }
+            converterList.add(dummyConverterObj); // TODO : testing only!
+
+            converterList.add(new IDWriteLongConverter());
+            converterList.add(new IDReadLongConverter());
         }
 
         return new CustomConversions(converterList);
@@ -67,6 +75,10 @@ public class MongoConfig extends AbstractMongoConfiguration {
 
     @Bean
     public DummyConverter dummyConverter() {
+        if (dummyConverterObj == null) {
+            dummyConverterObj = new DummyConverter();
+        }
+
         return dummyConverterObj;
     }
 

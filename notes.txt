@@ -30,8 +30,13 @@ TODO
 
     - HPROFStore - missing methods for StackFrames, Theads, ArrayDumps? Other HasId's?
 
-    - In MemStore - store by Tag, not class?
     - What if multiple dumps?
+    - All these Repos with IDField id -- use generic(and @NoRepository)!
+    - In MemStore - store by Tag, not class?
+    - Create an lite version of the InstanceDump/*ArrayDump trees for
+       easy searching?
+    - look into queryDSL http://www.querydsl.com/static/querydsl/2.1.0/reference/html
+
     - So, we added a couple of .hprofs for testing. Do we add all of them?
     - l is no name for a DataStreamWrapper!
     - hashcodez? serializable?

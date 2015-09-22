@@ -1,6 +1,7 @@
 package com.websushibar.hprofpersist.hprofentries;
 
 import com.websushibar.hprofpersist.loader.DataInputStreamWrapper;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.IOException;
@@ -14,6 +15,8 @@ public class LoadClass extends HPROFMainEntry
     public static LoadClass objectLoadClass;
 
     private int serialNo;
+
+    @Id
     private IDField classObjId;
     private int stackTraceSerialNo;
     private IDField classNameStringId;

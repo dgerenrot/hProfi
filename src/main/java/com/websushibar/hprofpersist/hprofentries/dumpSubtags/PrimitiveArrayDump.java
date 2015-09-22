@@ -1,13 +1,14 @@
 package com.websushibar.hprofpersist.hprofentries.dumpSubtags;
 
 import com.websushibar.hprofpersist.loader.DataInputStreamWrapper;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.IOException;
 
 import static com.websushibar.hprofpersist.hprofentries.dumpSubtags.BasicTypeTag.readBasicTypeTag;
 import static com.websushibar.hprofpersist.hprofentries.dumpSubtags.BasicTypeTag.readEntryValue;
 
-
+@Document(collection="hprofPrimArrDumps")
 public class PrimitiveArrayDump extends AbstractArrayDump {
 
     private BasicTypeTag typeTag;
