@@ -83,6 +83,7 @@ public class ClassARefAndClassATest {
         ObjOfClassARefShouldHaveRefToClassA(CLASS_A_REF_VIS_VM_4);
         ((MongoStorage)store).reset();
     }
+
     private void ObjOfClassARefShouldHaveRefToClassA(String fileName) throws IOException {
 
         IDField classUnderTestId = null;

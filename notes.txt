@@ -32,6 +32,7 @@ TODO
 
     - What if multiple dumps?
     - All these Repos with IDField id -- use generic(and @NoRepository)!
+    - properties to use for Mongo server (in spring config)
     - In MemStore - store by Tag, not class?
     - Create an lite version of the InstanceDump/*ArrayDump trees for
        easy searching?
