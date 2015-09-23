@@ -7,6 +7,8 @@ All the Instance Dumps, Object Array Dumps, Primitive Array Dumps, Class Dumps a
 
 In-memory store, i.e., without any database, has also been implemented.
 
+The long-term goal is to have better querying opportunities than the ones 
+provided by visualvm.
 
 See also https://java.net/downloads/heap-snapshot/hprof-binary-format.html
 
