@@ -67,6 +67,7 @@ public class AllocSites extends HPROFMainEntry {
         allocSites = new AllocSite[nSites];
         for (int i = 0; i < nSites; i++) {
             allocSites[i] = new AllocSite();
+            allocSites[i].initStartByte(l);
             allocSites[i].readBody(l);
         }
     }
@@ -118,6 +119,11 @@ public class AllocSites extends HPROFMainEntry {
             nLiveInstances = l.readInt();
             bytesAllocated = l.readInt();
             instancesAllocated = l.readInt();
+        }
+
+        @Override
+        public void initStartByte(DataInputStreamWrapper l) {
+            startsAtByte = l.getBytesRead();
         }
     }
 }
