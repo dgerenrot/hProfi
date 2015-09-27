@@ -12,9 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Query.query;
-
 
 /**
  * Nothing in this class has been implemented!
@@ -266,9 +263,7 @@ public class MongoStorage extends HPROFStore implements InitializingBean{
 
     @Override
     public Collection<InstanceDump> instDumps(IDField classId)  {
-        List<InstanceDump> retVal = mongoTemplate.find(query(where("classObjId").is(classId.getNumeric())),
-                                                        InstanceDump.class);
-        return retVal;
+        return instanceDumpRepo.findByClassObjId(classId);
     }
 
     @Override

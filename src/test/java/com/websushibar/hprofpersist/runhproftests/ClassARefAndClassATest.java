@@ -69,19 +69,19 @@ public class ClassARefAndClassATest {
 //    @Test
 //    public void ObjOfClassARefShouldHaveRefToClassA_Agtlib_0() throws IOException {
 //    store = loadMemStore(CLASS_A_REF_AGENTLIB_0);
-//        ObjOfClassARefShouldHaveRefToClassA(CLASS_A_REF_AGENTLIB_0);
+//        objOfClassARefShouldHaveRefToClassA(CLASS_A_REF_AGENTLIB_0);
 //    }
 
     @Test
-    public void ObjOfClassARefShouldHaveRefToClassA_Mem_VisVM_4() throws IOException {
+    public void objOfClassARefShouldHaveRefToClassA_Mem_VisVM_4() throws IOException {
         store = loadMemStore(CLASS_A_REF_VIS_VM_4);
-        ObjOfClassARefShouldHaveRefToClassA(CLASS_A_REF_VIS_VM_4);
+        objOfClassARefShouldHaveRefToClassA(CLASS_A_REF_VIS_VM_4);
     }
     @Test
-    public void ObjOfClassARefShouldHaveRefToClassA_Mongo_VisVM_4() throws IOException {
+    public void objOfClassARefShouldHaveRefToClassA_Mongo_VisVM_4() throws IOException {
         try {
             store = loadMongoStore(CLASS_A_REF_VIS_VM_4);
-            ObjOfClassARefShouldHaveRefToClassA(CLASS_A_REF_VIS_VM_4);
+            objOfClassARefShouldHaveRefToClassA(CLASS_A_REF_VIS_VM_4);
         } finally {
             if (store != null) {
                 ((MongoStorage)store).reset();
@@ -89,10 +89,10 @@ public class ClassARefAndClassATest {
         }
     }
 
-    private void ObjOfClassARefShouldHaveRefToClassA(String fileName) throws IOException {
+    private void objOfClassARefShouldHaveRefToClassA(String fileName) throws IOException {
 
         IDField classUnderTestId = null;
-        IDField referringClassId = null;
+        IDField referringClassId;
 
         Collection<LoadClass> collRefClass = store.loadClassesMatchingRE("^.*ClassAReference.*$");
 
