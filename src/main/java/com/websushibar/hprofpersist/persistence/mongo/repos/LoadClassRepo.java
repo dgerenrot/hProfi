@@ -6,6 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface LoadClassRepo
         extends CrudRepository<LoadClass, IDField> {
-
-    LoadClass findById(IDField id);
+    LoadClass findByClassObjId(IDField id);
 }

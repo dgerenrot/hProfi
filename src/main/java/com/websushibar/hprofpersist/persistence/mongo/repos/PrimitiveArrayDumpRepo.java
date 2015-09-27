@@ -5,5 +5,5 @@ import com.websushibar.hprofpersist.hprofentries.dumpSubtags.PrimitiveArrayDump;
 import org.springframework.data.repository.CrudRepository;
 
 public interface PrimitiveArrayDumpRepo extends CrudRepository<PrimitiveArrayDump, IDField> {
-    PrimitiveArrayDump findById(IDField id);
+    PrimitiveArrayDump findByObjId(IDField id);
 }

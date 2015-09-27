@@ -7,5 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface InstanceDumpRepo
         extends CrudRepository<InstanceDump, IDField> {
 
-    InstanceDump findById(IDField id);
+    InstanceDump findByObjId(IDField id);
 }

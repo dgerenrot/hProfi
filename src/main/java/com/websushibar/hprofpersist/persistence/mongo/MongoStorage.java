@@ -55,13 +55,26 @@ public class MongoStorage extends HPROFStore implements InitializingBean{
      * Remove everything from the collections.
      */
     public void reset() {
-        classDumpRepo.deleteAll();
-        instanceDumpRepo.deleteAll();
-        loadClassRepo.deleteAll();
-        stringEntryRepo.deleteAll();
-        headerRepo.deleteAll();
-        objArrDumpRepo.deleteAll();
-        primArrDumpRepo.deleteAll();
+        Collection<String> names = new HashSet<>();
+
+        for (Tag t : Tag.values()) {
+            names.add(Tag.getClassByTag(t).getSimpleName());
+        }
+        for (DumpSubtag t : DumpSubtag.values()) {
+            names.add(DumpSubtag.getClassByTag(t).getSimpleName());
+        }
+
+        Collection<String> collNames = new ArrayList<>(mongoTemplate.getCollectionNames());
+
+        for (String collName : collNames) {
+            String cnLC = collName.toLowerCase();
+            for (String name : names) {
+                if (cnLC.endsWith(name.toLowerCase())) {
+                    mongoTemplate.dropCollection(collName);
+                    break;
+                }
+            }
+        }
     }
 
     @Override
@@ -90,16 +103,12 @@ public class MongoStorage extends HPROFStore implements InitializingBean{
     @Override
     public void addHPROFEntry(HPROFMainEntry entry) {
 
-        if (idRegisters.get(entry.getClass()) != null) {
-            ((CrudRepository)idRegisters.get(entry.getClass())).save(entry);
-        }
+        mongoTemplate.save(entry);
 
         if (entry instanceof AbstractHeapDumpEntity) {
             AbstractHeapDumpEntity entity = (AbstractHeapDumpEntity) entry;
             for (DumpSubtagEntry e : entity.getSubtagEntries()) {
-                if (idRegisters.get(e.getClass()) != null) {
-                    ((CrudRepository)idRegisters.get(e.getClass())).save(e);
-                }
+                mongoTemplate.save(e);
             }
         }
     }
@@ -197,62 +206,62 @@ public class MongoStorage extends HPROFStore implements InitializingBean{
 
     @Override
     public ClassDump getClassDump(IDField id)   {
-        return classDumpRepo.findOne(id);
+        return classDumpRepo.findByObjId(id);
     }
 
     @Override
     public ClassDump getClassDump(long id) {
-        return classDumpRepo.findOne(new IDField(id));
+        return classDumpRepo.findByObjId(new IDField(id));
     }
 
     @Override
     public ClassDump getClassDump(byte[] id) {
-        return classDumpRepo.findOne(new IDField(id));
+        return classDumpRepo.findByObjId(new IDField(id));
     }
 
     @Override
     public InstanceDump getInstanceDump(IDField id)   {
-        return instanceDumpRepo.findOne(id);
+        return instanceDumpRepo.findByObjId(id);
     }
 
     @Override
     public InstanceDump getInstanceDump(long id) {
-        return instanceDumpRepo.findOne(new IDField(id));
+        return instanceDumpRepo.findByObjId(new IDField(id));
     }
 
     @Override
     public InstanceDump getInstanceDump(byte[] id) {
-        return instanceDumpRepo.findOne(new IDField(id));
+        return instanceDumpRepo.findByObjId(new IDField(id));
     }
 
     @Override
     public ObjectArrayDump getObjectArrayDump(IDField id) {
-        return objArrDumpRepo.findOne(id);
+        return objArrDumpRepo.findByObjId(id);
     }
 
     @Override
     public ObjectArrayDump getObjectArrayDump(long id) {
-        return objArrDumpRepo.findOne(new IDField(id));
+        return objArrDumpRepo.findByObjId(new IDField(id));
     }
 
     @Override
     public ObjectArrayDump getObjectArrayDump(byte[] id) {
-        return objArrDumpRepo.findOne(new IDField(id));
+        return objArrDumpRepo.findByObjId(new IDField(id));
     }
 
     @Override
     public PrimitiveArrayDump getPrimitiveArrayDump(IDField id)  {
-        return primArrDumpRepo.findOne(id);
+        return primArrDumpRepo.findByObjId(id);
     }
 
     @Override
     public PrimitiveArrayDump getPrimitiveArrayDump(long id) {
-        return primArrDumpRepo.findOne(new IDField(id));
+        return primArrDumpRepo.findByObjId(new IDField(id));
     }
 
     @Override
     public PrimitiveArrayDump getPrimitiveArrayDump(byte[] id) {
-        return primArrDumpRepo.findOne(new IDField(id));
+        return primArrDumpRepo.findByObjId(new IDField(id));
     }
 
     @Override

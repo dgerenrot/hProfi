@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Document(collection="hprofObjArrDumps")
+@Document
 public class ObjectArrayDump extends AbstractArrayDump {
     private IDField arrayClassObjId;
 

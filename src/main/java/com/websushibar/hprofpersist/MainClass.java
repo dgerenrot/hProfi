@@ -1,8 +1,8 @@
 package com.websushibar.hprofpersist;
 
-import com.websushibar.hprofpersist.persistence.mongo.repos.ClassDumpRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -27,10 +27,12 @@ public class MainClass {
     public static AnnotationConfigApplicationContext context;
 
     @Autowired
-    public DummyRepo dummyRepo;
+    DummyRepo dummyRepo;
 
     @Autowired
-    public ClassDumpRepo classDumpRepo;
+    MongoTemplate mongoTemplate;
+
+
 
     public static void main(String[] args)
             throws IOException {
@@ -47,7 +49,15 @@ public class MainClass {
 //        dc.setMappingMongoConverter(mmc);
 
 
-         test.doMain(args);
+         // test.doMain(args);
+        test.usingMongoTemplate();
+    }
+
+    private void usingMongoTemplate() {
+        for (Dummy dummy : DUMMY_DATA) {
+            mongoTemplate.insert(dummy, "testDummies");
+        }
+
     }
 
 

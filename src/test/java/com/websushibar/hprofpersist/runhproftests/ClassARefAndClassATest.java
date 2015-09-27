@@ -79,9 +79,14 @@ public class ClassARefAndClassATest {
     }
     @Test
     public void ObjOfClassARefShouldHaveRefToClassA_Mongo_VisVM_4() throws IOException {
-        store = loadMongoStore(CLASS_A_REF_VIS_VM_4);
-        ObjOfClassARefShouldHaveRefToClassA(CLASS_A_REF_VIS_VM_4);
-        ((MongoStorage)store).reset();
+        try {
+            store = loadMongoStore(CLASS_A_REF_VIS_VM_4);
+            ObjOfClassARefShouldHaveRefToClassA(CLASS_A_REF_VIS_VM_4);
+        } finally {
+            if (store != null) {
+                ((MongoStorage)store).reset();
+            }
+        }
     }
 
     private void ObjOfClassARefShouldHaveRefToClassA(String fileName) throws IOException {
@@ -127,9 +132,15 @@ public class ClassARefAndClassATest {
     }
     @Test
     public void classDumpsAndLoadClassIdsHaveSameSize_Mongo_Agtlib_0() throws IOException {
-        store = loadMongoStore(CLASS_A_REF_AGENTLIB_0);
-        classDumpsAndLoadClassIdsHaveSameSize(CLASS_A_REF_AGENTLIB_0);
-        ((MongoStorage)store).reset();
+        try {
+            store = loadMongoStore(CLASS_A_REF_AGENTLIB_0);
+            classDumpsAndLoadClassIdsHaveSameSize(CLASS_A_REF_AGENTLIB_0);
+
+        } finally {
+            if (store != null) {
+                ((MongoStorage)store).reset();
+            }
+        }
     }
 
     @Test
@@ -139,13 +150,20 @@ public class ClassARefAndClassATest {
     }
     @Test
     public void classDumpsAndLoadClassIdsHaveSameSize_Mongo_VisVM_4() throws IOException {
-        store = loadMongoStore(CLASS_A_REF_AGENTLIB_0);
-        classDumpsAndLoadClassIdsHaveSameSize(CLASS_A_REF_VIS_VM_4);
-        ((MongoStorage)store).reset();
+
+        try {
+            store = loadMongoStore(CLASS_A_REF_AGENTLIB_0);
+            classDumpsAndLoadClassIdsHaveSameSize(CLASS_A_REF_VIS_VM_4);
+        } finally {
+            if (store != null) {
+                ((MongoStorage)store).reset();
+            }
+        }
     }
 
     private void classDumpsAndLoadClassIdsHaveSameSize(String fileName) throws IOException {
-        assertEquals(store.getNumClassDumps(), store.getNumLoadClasses());
+        assertEquals(415, store.getNumClassDumps());
+        assertEquals(415, store.getNumLoadClasses());
     }
 
     @Test
@@ -156,9 +174,14 @@ public class ClassARefAndClassATest {
 
     @Test
     public void shouldContainStringClassId_Mongo_Agtlib_0() throws IOException {
-        store = loadMongoStore(CLASS_A_REF_AGENTLIB_0);
-        shouldContainStringClassId(CLASS_A_REF_AGENTLIB_0);
-        ((MongoStorage)store).reset();
+        try {
+            store = loadMongoStore(CLASS_A_REF_AGENTLIB_0);
+            shouldContainStringClassId(CLASS_A_REF_AGENTLIB_0);
+        } finally {
+            if (store != null) {
+                ((MongoStorage)store).reset();
+            }
+        }
     }
 
     @Test
@@ -169,9 +192,14 @@ public class ClassARefAndClassATest {
 
     @Test
     public void shouldContainStringClassId_Mongo_VisVM_4() throws IOException {
-        store = loadMongoStore(CLASS_A_REF_AGENTLIB_0);
-        shouldContainStringClassId(CLASS_A_REF_VIS_VM_4);
-        ((MongoStorage)store).reset();
+        try {
+            store = loadMongoStore(CLASS_A_REF_AGENTLIB_0);
+            shouldContainStringClassId(CLASS_A_REF_VIS_VM_4);
+        } finally {
+            if (store != null) {
+                ((MongoStorage)store).reset();
+            }
+        }
     }
 
     private void shouldContainStringClassId(String fileName) throws IOException {
@@ -193,9 +221,15 @@ public class ClassARefAndClassATest {
 
     @Test
     public void shouldFindSubtag_Mongo_VisVM_4() throws IOException {
-        store = loadMongoStore(CLASS_A_REF_VIS_VM_4);
-        shouldFindSubtag();
-        ((MongoStorage)store).reset();
+
+        try {
+            store = loadMongoStore(CLASS_A_REF_VIS_VM_4);
+            shouldFindSubtag();
+        } finally {
+            if (store != null) {
+                ((MongoStorage)store).reset();
+            }
+        }
     }
 
     private void shouldFindSubtag() {

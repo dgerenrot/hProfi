@@ -28,7 +28,8 @@ public class DummyConverter implements Converter<Dummy, DBObject>,
     public DBObject convert(Dummy source) {
         DBObject dbo = new BasicDBObject();
         mappingMongoConverter.write(source, dbo);
-        dbo.put("some_label", "labdAt " + System.currentTimeMillis());
+        dbo.put("_id", "labdAt " + System.currentTimeMillis());
+
 
         return dbo;
     }

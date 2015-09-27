@@ -7,5 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface ClassDumpRepo
         extends CrudRepository<ClassDump, IDField> {
 
-    ClassDump findById(IDField id);
+    ClassDump findByObjId(IDField id);
 }

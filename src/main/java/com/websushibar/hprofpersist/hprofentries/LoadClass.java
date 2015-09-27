@@ -1,12 +1,11 @@
 package com.websushibar.hprofpersist.hprofentries;
 
 import com.websushibar.hprofpersist.loader.DataInputStreamWrapper;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.IOException;
 
-@Document(collection="hprofLoadClasses")
+@Document
 public class LoadClass extends HPROFMainEntry
         implements HasId{
 
@@ -16,7 +15,6 @@ public class LoadClass extends HPROFMainEntry
 
     private int serialNo;
 
-    @Id
     private IDField classObjId;
     private int stackTraceSerialNo;
     private IDField classNameStringId;

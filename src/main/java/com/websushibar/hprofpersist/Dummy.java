@@ -1,6 +1,5 @@
 package com.websushibar.hprofpersist;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -15,7 +14,7 @@ public class Dummy {
         this.age = age;
     }
 
-    @Id
+    //@Id
     public String getName() {
         return name;
     }

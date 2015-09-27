@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.io.IOException;
 
 
-@Document(collection="hprofInstanceDumps")
+@Document
 public class InstanceDump  extends AbstractObjDump {
 
     private IDField classObjId;

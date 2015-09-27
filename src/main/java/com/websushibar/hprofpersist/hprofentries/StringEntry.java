@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
-@Document(collection="hprofStrings")
+@Document
 public class StringEntry extends HPROFMainEntry
         implements HasId{
 

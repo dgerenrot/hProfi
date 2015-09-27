@@ -14,7 +14,7 @@ import static com.websushibar.hprofpersist.hprofentries.dumpSubtags.BasicTypeTag
 import static com.websushibar.hprofpersist.hprofentries.dumpSubtags.BasicTypeTag.readEntryValue;
 
 
-@Document(collection="hprofClassDumps")
+@Document
 public class  ClassDump  extends AbstractObjDump {
 
     private IDField superClassObjId;

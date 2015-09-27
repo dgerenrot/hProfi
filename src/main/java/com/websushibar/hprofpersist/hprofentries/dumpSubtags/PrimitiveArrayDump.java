@@ -8,7 +8,7 @@ import java.io.IOException;
 import static com.websushibar.hprofpersist.hprofentries.dumpSubtags.BasicTypeTag.readBasicTypeTag;
 import static com.websushibar.hprofpersist.hprofentries.dumpSubtags.BasicTypeTag.readEntryValue;
 
-@Document(collection="hprofPrimArrDumps")
+@Document
 public class PrimitiveArrayDump extends AbstractArrayDump {
 
     private BasicTypeTag typeTag;
