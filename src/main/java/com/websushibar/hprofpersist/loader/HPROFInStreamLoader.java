@@ -85,18 +85,46 @@ public class HPROFInStreamLoader {
 
         HPROFMainEntry entry;
         try {
-            entry = Tag.getClassByTag(tag).newInstance();
+            entry = emptyEntryFromTag(tag);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e.getMessage(), e);
         } catch (InstantiationException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
 
-        entry.readSelf(dis);
+        initializeEntry(entry);
 
         return entry;
     }
 
+    /**
+     * Create uninitialized entry from tag.
+     * @param tag
+     * @return Entry just instantiated
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     */
+    protected HPROFMainEntry emptyEntryFromTag(Tag tag)
+            throws IllegalAccessException, InstantiationException {
+        return  Tag.getClassByTag(tag).newInstance();
+    }
+
+    /**
+     * Initializes the empty entry. Base implementation simply has
+     * calls readSelf for the entry on the input stream.
+     * @param entry
+     * @throws IOException
+     */
+    protected void initializeEntry(HPROFMainEntry entry)
+            throws IOException {
+        entry.readSelf(dis);
+    }
+
+    /**
+     * Read the bytes in string until (& not including) null byte.
+     * @return
+     * @throws IOException
+     */
     protected String readStringBytes() throws IOException {
         StringBuilder sb = new StringBuilder();
         byte b;

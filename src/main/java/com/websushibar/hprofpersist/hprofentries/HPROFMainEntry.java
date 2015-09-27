@@ -19,8 +19,6 @@ public abstract class HPROFMainEntry extends HPROFEntity{
 
     protected long bytesAfterHeader;
 
-    protected  long startsAtByte;
-
     protected byte[] bodyBytes;
 
     protected HPROFMainEntry() {}
@@ -36,8 +34,7 @@ public abstract class HPROFMainEntry extends HPROFEntity{
     public void readSelf(DataInputStreamWrapper l)
             throws IOException {
 
-        int sizeofByteInBytes = 1;
-        startsAtByte = l.getBytesRead() - sizeofByteInBytes;
+        initStartByte(l);
 
         try {
             readEnryHeadSansTag(l);
@@ -62,11 +59,13 @@ public abstract class HPROFMainEntry extends HPROFEntity{
         bytesAfterHeader = unsignedIntVal(signedSize);
     }
 
-    public long getStartsAtByte() {
-        return startsAtByte;
-    }
-
     public long getBytesAfterHeader() {
         return bytesAfterHeader;
+    }
+
+    @Override
+    public void initStartByte(DataInputStreamWrapper l) {
+        int sizeofByteInBytes = 1;
+        startsAtByte = l.getBytesRead() - sizeofByteInBytes;
     }
 }

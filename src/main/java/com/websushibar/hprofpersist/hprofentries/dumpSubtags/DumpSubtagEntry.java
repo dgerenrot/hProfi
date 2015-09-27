@@ -14,8 +14,6 @@ public abstract class DumpSubtagEntry extends HPROFEntity
 
     private IDField objId;
 
-    protected long startsAtByte;
-
     @Transient
     protected AbstractHeapDumpEntity parent;
 
@@ -27,18 +25,20 @@ public abstract class DumpSubtagEntry extends HPROFEntity
 
     @Override
     public void readBody(DataInputStreamWrapper l) throws IOException {
-        startsAtByte = l.getBytesRead() - IDField.getSize();
+        initStartByte(l);
         objId = l.readId();
     }
 
-    public long getStartsAtByte() {
-        return startsAtByte;
-    }
     public AbstractHeapDumpEntity getParent() {
         return parent;
     }
 
     public void setParent(AbstractHeapDumpEntity parent) {
         this.parent = parent;
+    }
+
+    @Override
+    public void initStartByte(DataInputStreamWrapper l) {
+        startsAtByte = l.getBytesRead() - IDField.getSize();
     }
 }
