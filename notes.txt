@@ -30,7 +30,7 @@ TODO
 
     - HPROFStore - missing methods for StackFrames, Theads, ArrayDumps? Other HasId's?
 
-    - What if multiple dumps?
+    - What if multiple dumps? (Verify classes the same)?
     - All these Repos with IDField id -- use generic(and @NoRepository)!
     - properties to use for Mongo server (in spring config)
     - In MemStore - store by Tag, not class?
